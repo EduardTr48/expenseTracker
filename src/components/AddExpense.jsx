@@ -1,21 +1,23 @@
-import { Form, useActionData, useNavigate } from "react-router-dom";
-import { useExpenses } from "../context/ExpensesContext";
-import { useEffect, useState } from "react";
+import { Form, useActionData, useNavigate } from 'react-router-dom';
+import { useExpenses } from '../context/ExpensesContext';
+import { useEffect, useState } from 'react';
+import { formatDate } from '../helpers/formatDate';
 
 export async function action({ request }) {
     const formData = await request.formData();
     const data = Object.fromEntries(formData);
     const errores = [];
-
-    Object.entries(data).map((propiedad) => {
-        if (propiedad[1] === "") {
-            errores.push(`El campo ${propiedad[0]} es obligatorio`);
+    const fechaActual = new Date();
+    Object.entries(data).forEach(([key, value]) => {
+        if (value === '') {
+            errores.push(`El campo ${key} es obligatorio`);
         }
     });
-
     if (errores.length > 0) {
         return { errores };
     }
+
+    data.fecha = formatDate(fechaActual);
 
     return { data };
 }
@@ -30,13 +32,13 @@ const AddExpense = () => {
             setErrores([...actionData.errores]);
         } else if (actionData?.data) {
             addExpense(actionData.data);
-            navigate("/expense");
+            navigate('/expense');
         }
-    }, [actionData]);
+    }, [actionData, addExpense, navigate]);
 
     return (
         <div className="bg-slate-800 w-full h-full pt-10 rounded-xl">
-            <button className="bg-blue-800 text-white px-3 py-1 font-bold uppercase" onClick={() => navigate("/expense")}>
+            <button className="bg-blue-800 text-white px-3 py-1 font-bold uppercase" onClick={() => navigate('/expense')}>
                 Volver
             </button>
             <h2 className="text-center text-4xl">Add Expense</h2>
