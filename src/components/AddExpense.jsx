@@ -1,29 +1,46 @@
-import { Form, useNavigate } from 'react-router-dom';
-import { useExpenses } from '../context/ExpensesContext';
-import { useState } from 'react';
+import { Form, useActionData, useNavigate } from "react-router-dom";
+import { useExpenses } from "../context/ExpensesContext";
+import { useEffect, useState } from "react";
+
+export async function action({ request }) {
+    const formData = await request.formData();
+    const data = Object.fromEntries(formData);
+    const errores = [];
+
+    Object.entries(data).map((propiedad) => {
+        if (propiedad[1] === "") {
+            errores.push(`El campo ${propiedad[0]} es obligatorio`);
+        }
+    });
+
+    if (errores.length > 0) {
+        return { errores };
+    }
+
+    return { data };
+}
 
 const AddExpense = () => {
-    const { addExpense } = useExpenses();
     const [errores, setErrores] = useState([]);
+    const { addExpense } = useExpenses();
+    const actionData = useActionData();
     const navigate = useNavigate();
-    function handleSubmit(event) {
-        event.preventDefault();
-        setErrores([]);
-        const formData = new FormData(event.target);
-        const data = Object.fromEntries(formData.entries());
-
-        if (Object.values(data).includes('')) {
-            setErrores(['Llena todos los campos']);
-        } else {
-            addExpense(data);
-            return navigate('/expense');
+    useEffect(() => {
+        if (actionData?.errores) {
+            setErrores([...actionData.errores]);
+        } else if (actionData?.data) {
+            addExpense(actionData.data);
+            navigate("/expense");
         }
-    }
+    }, [actionData]);
 
     return (
         <div className="bg-slate-800 w-full h-full pt-10 rounded-xl">
+            <button className="bg-blue-800 text-white px-3 py-1 font-bold uppercase" onClick={() => navigate("/expense")}>
+                Volver
+            </button>
             <h2 className="text-center text-4xl">Add Expense</h2>
-            <Form method="post" onSubmit={handleSubmit}>
+            <Form method="post">
                 <div className="w-6/12 mx-auto ">
                     {errores &&
                         errores.map((error, index) => (

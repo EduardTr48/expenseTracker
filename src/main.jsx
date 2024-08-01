@@ -1,16 +1,16 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import './index.css';
-import Layout from './Layout';
-import Expense from './components/Expense';
-import Home from './components/Home';
-import AddExpense from './components/AddExpense';
-import { ExpensesProvider } from './context/ExpensesContext';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import "./index.css";
+import Layout from "./Layout";
+import Expense from "./components/Expense";
+import Home from "./components/Home";
+import AddExpense, { action as actionAddExpense } from "./components/AddExpense";
+import { ExpensesProvider } from "./context/ExpensesContext";
 
 const router = createBrowserRouter([
     {
-        path: '/',
+        path: "/",
         element: <Layout />,
         children: [
             {
@@ -18,18 +18,19 @@ const router = createBrowserRouter([
                 element: <Home />,
             },
             {
-                path: '/expense',
+                path: "/expense",
                 element: <Expense />,
             },
             {
-                path: '/addExpense',
+                path: "/addExpense",
                 element: <AddExpense />,
+                action: actionAddExpense,
             },
         ],
     },
 ]);
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+ReactDOM.createRoot(document.getElementById("root")).render(
     <React.StrictMode>
         <ExpensesProvider>
             <RouterProvider router={router} />
