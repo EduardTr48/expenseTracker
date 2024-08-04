@@ -1,15 +1,20 @@
-import { Form, useActionData, useNavigate } from 'react-router-dom';
-import { useExpenses } from '../context/ExpensesContext';
-import { useEffect, useState } from 'react';
-import { formatDate } from '../helpers/formatDate';
+import { Form, useActionData, useNavigate, useParams } from "react-router-dom";
+import { useExpenses } from "../context/ExpensesContext";
+import { useEffect, useState } from "react";
+import { formatDate } from "../helpers/formatDate";
+import { autoIncrement } from "../helpers/autoIncrement";
 
 export async function action({ request }) {
+    const { id } = useParams();
+
     const formData = await request.formData();
     const data = Object.fromEntries(formData);
     const errores = [];
     const fechaActual = new Date();
+    const getNextIndex = autoIncrement();
+
     Object.entries(data).forEach(([key, value]) => {
-        if (value === '') {
+        if (value === "") {
             errores.push(`El campo ${key} es obligatorio`);
         }
     });
@@ -18,11 +23,13 @@ export async function action({ request }) {
     }
 
     data.fecha = formatDate(fechaActual);
-
+    data.id = getNextIndex();
     return { data };
 }
 
 const AddExpense = () => {
+    const { id } = useParams();
+
     const [errores, setErrores] = useState([]);
     const { addExpense } = useExpenses();
     const actionData = useActionData();
@@ -32,13 +39,13 @@ const AddExpense = () => {
             setErrores([...actionData.errores]);
         } else if (actionData?.data) {
             addExpense(actionData.data);
-            navigate('/expense');
+            navigate("/expense");
         }
     }, [actionData, addExpense, navigate]);
 
     return (
         <div className="bg-slate-800 w-full h-full pt-10 rounded-xl">
-            <button className="bg-blue-800 text-white px-3 py-1 font-bold uppercase" onClick={() => navigate('/expense')}>
+            <button className="bg-blue-800 text-white px-3 py-1 font-bold uppercase" onClick={() => navigate("/expense")}>
                 Volver
             </button>
             <h2 className="text-center text-4xl">Add Expense</h2>

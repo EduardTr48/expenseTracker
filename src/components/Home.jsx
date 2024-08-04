@@ -1,4 +1,4 @@
-import { useExpenses } from '../context/ExpensesContext';
+import { useExpenses } from "../context/ExpensesContext";
 
 const Home = () => {
     const { expenses } = useExpenses();
@@ -7,12 +7,26 @@ const Home = () => {
         <div className="grid grid-cols-2 gap-6 h-full pt-10">
             <div className="bg-slate-800 rounded-xl">Tareas pendientes</div>
             <div className="bg-slate-800 rounded-xl">
-                {expenses &&
-                    expenses.map((expense, index) => (
-                        <p className="ml-2 mt-2 uppercase" key={index}>
-                            {index + 1} - {expense.nombre}, precio: {expense.precio}
-                        </p>
-                    ))}
+                <h2 className="text-center mb-7 mt-2">Gastos Recientes</h2>
+                <table className="table-fixed w-11/12 mx-auto mt-2">
+                    <thead className="text-left">
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Precio</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {expenses &&
+                            expenses.map((expense, index) => {
+                                return (
+                                    <tr className="border-y-2" key={expense.id}>
+                                        <td>{expense.nombre}</td>
+                                        <td>$ {expense.precio}</td>
+                                    </tr>
+                                );
+                            })}
+                    </tbody>
+                </table>
             </div>
             <div className="bg-slate-800 rounded-xl col-span-2">Acceso rapido</div>
             <div className="bg-slate-800 rounded-xl col-span-2">Reporte del Mes</div>

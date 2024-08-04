@@ -26,6 +26,10 @@ const router = createBrowserRouter([
                 element: <AddExpense />,
                 action: actionAddExpense,
             },
+            {
+                path: "/editExpense/:id",
+                element: <AddExpense />,
+            },
         ],
     },
 ]);
