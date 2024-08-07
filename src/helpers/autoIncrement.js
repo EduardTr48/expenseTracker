@@ -1,4 +1,4 @@
-export const autoIncrement = () => {
+const autoIncrement = () => {
     let index = 2;
 
     return () => {
@@ -6,3 +6,5 @@ export const autoIncrement = () => {
         return index;
     };
 };
+
+export const nextId = autoIncrement();

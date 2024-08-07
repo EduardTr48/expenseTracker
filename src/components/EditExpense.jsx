@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 
 export async function action({ request }) {
     const errores = [];
-    const formData = await request.formData(); // Corrección aquí: 'await'
+    const formData = await request.formData();
     const data = Object.fromEntries(formData);
     const fechaActual = new Date();
 

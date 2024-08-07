@@ -3,7 +3,7 @@ import { Form, useActionData, useNavigate } from 'react-router-dom';
 import FormExpense from './FormExpense';
 import { useEffect } from 'react';
 import { useExpenses } from '../context/ExpensesContext';
-import { autoIncrement } from '../helpers/autoIncrement';
+import { nextId } from '../helpers/autoIncrement';
 import { formatDate } from '../helpers/formatDate';
 
 export async function action({ request }) {
@@ -11,7 +11,6 @@ export async function action({ request }) {
     const formData = await request.formData();
     const fechaActual = new Date();
     const data = Object.fromEntries(formData);
-    const nextId = autoIncrement();
     if (Object.values(data).includes('')) {
         errores.push('Todos los campos son obligatorios');
     }

@@ -8,7 +8,7 @@ const Home = () => {
             <div className="bg-slate-800 rounded-xl">Tareas pendientes</div>
             <div className="bg-slate-800 rounded-xl">
                 <h2 className="text-center mb-7 mt-2">Gastos Recientes</h2>
-                <table className="table-fixed w-11/12 mx-auto mt-2">
+                <table className="table-auto w-11/12 mx-auto mt-2">
                     <thead className="text-left">
                         <tr>
                             <th>Nombre</th>
