@@ -1,4 +1,4 @@
-import { useExpenses } from "../context/ExpensesContext";
+import { useExpenses } from '../context/ExpensesContext';
 
 const Home = () => {
     const { expenses } = useExpenses();
@@ -17,7 +17,7 @@ const Home = () => {
                     </thead>
                     <tbody>
                         {expenses &&
-                            expenses.map((expense, index) => {
+                            expenses.map((expense) => {
                                 return (
                                     <tr className="border-y-2" key={expense.id}>
                                         <td>{expense.nombre}</td>

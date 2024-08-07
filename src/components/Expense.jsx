@@ -1,16 +1,17 @@
-import { Link } from "react-router-dom";
-import { useExpenses } from "../context/ExpensesContext";
-const Expense = () => {
-    const { expenses } = useExpenses();
+import { Link, useNavigate } from 'react-router-dom';
+import { useExpenses } from '../context/ExpensesContext';
 
+const Expense = () => {
+    const navigate = useNavigate();
+    const { expenses } = useExpenses();
     const handleEditar = (id) => {
-        console.log("editando el gasto ", id);
+        navigate(`/editExpense/${id}`);
     };
 
     return (
         <div className="grid grid-cols-3 gap-6 h-full pt-10">
             <div className="bg-slate-800 hover:bg-slate-700 cursor-pointer rounded-xl">
-                <Link className="w-full h-full inline-block" to={"/addExpense"}>
+                <Link className="w-full h-full inline-block" to={'/addExpense'}>
                     Add Expense
                 </Link>
             </div>

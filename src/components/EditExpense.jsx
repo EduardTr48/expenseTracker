@@ -1,39 +1,44 @@
-import { Form, useActionData, useNavigate } from 'react-router-dom';
-
-import FormExpense from './FormExpense';
-import { useEffect } from 'react';
-import { useExpenses } from '../context/ExpensesContext';
-import { autoIncrement } from '../helpers/autoIncrement';
 import { formatDate } from '../helpers/formatDate';
+import FormExpense from './FormExpense';
+import { useExpenses } from '../context/ExpensesContext';
+import { useActionData, useNavigate, Form, useParams } from 'react-router-dom';
+import { useEffect } from 'react';
 
 export async function action({ request }) {
     const errores = [];
-    const formData = await request.formData();
-    const fechaActual = new Date();
+    const formData = await request.formData(); // Corrección aquí: 'await'
     const data = Object.fromEntries(formData);
-    const nextId = autoIncrement();
+    const fechaActual = new Date();
+
     if (Object.values(data).includes('')) {
         errores.push('Todos los campos son obligatorios');
     }
     if (errores.length > 0) {
         return { errores };
     }
-    data.id = nextId();
+
     data.fecha = formatDate(fechaActual);
     return { data };
 }
 
-const AddExpense = () => {
-    const { addExpense: agregarGasto } = useExpenses();
+const EditExpense = () => {
+    const { expenses, updateExpense } = useExpenses();
+    const params = useParams();
+    const id = +params.id;
     const data = useActionData();
     const errores = data?.errores;
     const navigate = useNavigate();
+
+    const expense = expenses.find((expense) => expense.id === id);
+
     useEffect(() => {
         if (data?.data) {
-            agregarGasto(data.data);
+            data.data.id = id;
+            updateExpense(data.data);
             navigate('/expense');
         }
-    }, [data, agregarGasto, navigate]);
+    }, [data, updateExpense, navigate, id]);
+
     return (
         <>
             {errores &&
@@ -43,11 +48,11 @@ const AddExpense = () => {
                     </h3>
                 ))}
             <Form method="post">
-                <FormExpense />
-                <input className="px-4 py-2 bg-slate-900" type="submit" value="Añadir gasto" />
+                <FormExpense expense={expense} />
+                <input className="px-4 py-2 bg-slate-900" type="submit" value="Actualizar gasto" />
             </Form>
         </>
     );
 };
 
-export default AddExpense;
+export default EditExpense;
