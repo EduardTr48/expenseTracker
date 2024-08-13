@@ -6,11 +6,6 @@ const Home = () => {
     return (
         <div className="grid grid-cols-2 gap-6 h-full pt-10">
             <div className="bg-slate-800 rounded-xl">
-                <Link className="w-full my-auto flex justify-center items-center h-full" to={'/addExpense'}>
-                    <p className="text-center m-auto">Tareas Pendientes</p>
-                </Link>
-            </div>
-            <div className="bg-slate-800 rounded-xl">
                 <h2 className="text-center mb-7 mt-2">Gastos Recientes</h2>
                 <table className="table-auto w-11/12 mx-auto mt-2">
                     <thead className="text-left">
@@ -32,7 +27,7 @@ const Home = () => {
                     </tbody>
                 </table>
             </div>
-            <div className="bg-slate-800 rounded-xl col-span-2">
+            <div className="bg-slate-800 rounded-xl col-span-1">
                 <Link className="w-full my-auto flex justify-center items-center h-full" to={'/addExpense'}>
                     <p className="text-center m-auto">Acceso Rapido</p>
                 </Link>

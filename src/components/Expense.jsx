@@ -28,9 +28,9 @@ const Expense = () => {
     };
 
     return (
-        <div className="grid grid-cols-3 gap-6 h-full pt-10">
+        <div className="grid grid-cols-3 gap-6">
             <div className="bg-slate-800 hover:bg-slate-700 cursor-pointer rounded-xl">
-                <Link className="w-full my-auto flex justify-center items-center h-full" to={'/addExpense'}>
+                <Link className="w-full my-auto flex justify-center items-center h-32" to={'/addExpense'}>
                     <p className="text-center m-auto">Agregar gasto</p>
                 </Link>
             </div>
@@ -49,7 +49,7 @@ const Expense = () => {
                 <p className="pt-4 text-center pb-4">Busqueda</p>
                 <input className="block w-11/12 mx-auto" type="text" value={buscarNombre} onChange={handleBuscarNombre} placeholder="Buscar por nombre" />
             </div>
-            <div className="bg-slate-800 rounded-xl col-span-3 row-span-6">
+            <div className="bg-slate-800 rounded-xl col-span-3 row-span-6 max-h-112 overflow-y-auto">
                 <table className="table-auto w-11/12 mx-auto mt-2">
                     <thead className="text-left">
                         <tr>

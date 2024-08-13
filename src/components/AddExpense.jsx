@@ -5,8 +5,10 @@ import { useEffect } from 'react';
 import { useExpenses } from '../context/ExpensesContext';
 import { nextId } from '../helpers/autoIncrement';
 import { formatDate } from '../helpers/formatDate';
+import BotonVolver from '../UI/BotonVolver';
 
 export async function action({ request }) {
+    console.log('desde action');
     const errores = [];
     const formData = await request.formData();
     const fechaActual = new Date();
@@ -27,12 +29,14 @@ const AddExpense = () => {
     const data = useActionData();
     const errores = data?.errores;
     const navigate = useNavigate();
+
     useEffect(() => {
         if (data?.data) {
             agregarGasto(data.data);
             navigate('/expense');
         }
     }, [data, agregarGasto, navigate]);
+
     return (
         <>
             {errores &&
@@ -41,9 +45,12 @@ const AddExpense = () => {
                         {error}
                     </h3>
                 ))}
-            <Form method="post">
+            <Form method="post" className="bg-slate-800  py-5 rounded-xl">
+                <BotonVolver />
                 <FormExpense />
-                <input className="px-4 py-2 bg-slate-900" type="submit" value="Añadir gasto" />
+                <div className="w-6/12 mx-auto">
+                    <input className="px-4 py-2 bg-slate-900 cursor-pointer" type="submit" value="Añadir gasto" />
+                </div>
             </Form>
         </>
     );

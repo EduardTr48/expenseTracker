@@ -2,7 +2,7 @@ import { Outlet, Link } from 'react-router-dom';
 
 const App = () => {
     return (
-        <div className="grid grid-cols-4  min-h-screen">
+        <div className="grid grid-cols-4 min-h-screen">
             <div className="bg-slate-800 col-span-1">
                 <aside className="h-full">
                     <div className="pt-6 w-full">
@@ -17,14 +17,12 @@ const App = () => {
                         <Link className="px-3 py-2 ml-4 max-w-48 w-full hover:bg-slate-500 hover:rounded-md" to={'/expense'}>
                             Gastos
                         </Link>
-                        <Link className="px-3 py-2 ml-4 max-w-48 w-full hover:bg-slate-500 hover:rounded-md" href="#">
-                            Tareas
-                        </Link>
-                        <Link className="px-3 py-2 ml-4 max-w-48 w-full hover:bg-slate-500 hover:rounded-md" href="#">
+
+                        <Link className="px-3 py-2 ml-4 max-w-48 w-full hover:bg-slate-500 hover:rounded-md" to={'/reportMonth'}>
                             Reporte del Mes
                         </Link>
                         <Link className="px-3 py-2 ml-4 max-w-48 w-full hover:bg-slate-500 hover:rounded-md" href="#">
-                            Settings
+                            Configuracion
                         </Link>
                     </nav>
                 </aside>

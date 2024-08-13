@@ -8,6 +8,7 @@ import Home from './components/Home';
 import AddExpense, { action as AddExpenseAction } from './components/AddExpense';
 import { ExpensesProvider } from './context/ExpensesContext';
 import EditExpense, { action as EditExpenseAction } from './components/EditExpense';
+import ReportMonth from './components/ReportMonth';
 
 const router = createBrowserRouter([
     {
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
                 path: '/editExpense/:id',
                 element: <EditExpense />,
                 action: EditExpenseAction,
+            },
+            {
+                path: '/reportMonth',
+                element: <ReportMonth />,
             },
         ],
     },

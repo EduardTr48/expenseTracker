@@ -9,7 +9,7 @@ const FormExpense = ({ expense: gasto }) => {
     };
 
     return (
-        <div className="bg-slate-800 w-full h-full pt-10 rounded-xl">
+        <>
             <h2 className="text-center text-4xl">Add Expense</h2>
 
             <div className="w-6/12 mx-auto ">
@@ -31,10 +31,11 @@ const FormExpense = ({ expense: gasto }) => {
                         <option value="ahorro">Ahorro</option>
                         <option value="transferencia">Transferencia</option>
                         <option value="medicamentos">Medicamento</option>
+                        <option value="ocio">Ocio</option>
                     </select>
                 </div>
             </div>
-        </div>
+        </>
     );
 };
 
