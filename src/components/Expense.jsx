@@ -8,9 +8,7 @@ const Expense = () => {
     const { addElementSuccess } = location.state || {};
     const { editElementSuccess } = location.state || {};
 
-    const [isAddNotificationOpen, setIsAddNotificationOpen] = useState(!!addElementSuccess);
-    const [isEditNotificationOpen, setIsEditNotificationOpen] = useState(!!editElementSuccess);
-    const [isDeleteNotificationOpen, setIsDeleteNotificationOpen] = useState(false);
+    const [notification, setNotification] = useState({ isOpen: !!addElementSuccess || !!editElementSuccess, message: addElementSuccess ? 'El gasto fue agregado correctamente' : editElementSuccess ? 'El gasto fue editado correctamente' : '' });
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [elementDelete, setElementDelete] = useState(null);
@@ -37,7 +35,7 @@ const Expense = () => {
 
     const eliminarGasto = (id) => {
         deleteExpense(id);
-        setIsDeleteNotificationOpen(true);
+        setNotification({ isOpen: true, message: 'El gasto fue eliminado correctamente' });
         closeModal();
     };
 
@@ -60,26 +58,14 @@ const Expense = () => {
 
     return (
         <>
-            <Notification
-                message="El gasto fue eliminado correctamente."
-                isOpen={isDeleteNotificationOpen}
-                duration={3000} // Duración en milisegundos
-                onClose={() => isDeleteNotificationOpen(false)}
-            />
-
-            <Notification
-                message="El gasto fue editado correctamente."
-                isOpen={isEditNotificationOpen}
-                duration={3000} // Duración en milisegundos
-                onClose={() => setIsEditNotificationOpen(false)}
-            />
-
-            <Notification
-                message="El gasto fue agregado correctamente."
-                isOpen={isAddNotificationOpen}
-                duration={3000} // Duración en milisegundos
-                onClose={() => setIsAddNotificationOpen(false)}
-            />
+            {notification.isOpen && (
+                <Notification
+                    message={notification.message}
+                    isOpen={notification.isOpen}
+                    duration={3000} // Duración en milisegundos
+                    onClose={() => setNotification({ ...notification, isOpen: false })}
+                />
+            )}
             <Modal isOpen={isModalOpen} onClose={closeModal} onConfirm={() => eliminarGasto(elementDelete)} title={'Eliminar el gasto'}>
                 <p>Estas seguro que deseas eliminar el gasto?</p>
             </Modal>
