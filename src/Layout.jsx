@@ -2,7 +2,7 @@ import { Outlet, Link } from 'react-router-dom';
 
 const App = () => {
     return (
-        <div className="grid grid-cols-4 min-h-screen">
+        <div className="grid grid-cols-6 min-h-screen">
             <div className="bg-slate-800 col-span-1">
                 <aside className="h-full">
                     <div className="pt-6 w-full">
@@ -27,7 +27,7 @@ const App = () => {
                     </nav>
                 </aside>
             </div>
-            <div className="bg-zinc-900 col-span-3 flex">
+            <div className="bg-zinc-900 col-span-5 flex">
                 <div className="size-11/12 m-auto text-stone-400">
                     <Outlet />
                 </div>

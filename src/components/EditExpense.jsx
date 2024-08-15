@@ -3,6 +3,7 @@ import FormExpense from './FormExpense';
 import { useExpenses } from '../context/ExpensesContext';
 import { useActionData, useNavigate, Form, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
+import BotonVolver from '../UI/BotonVolver';
 
 export async function action({ request }) {
     const errores = [];
@@ -35,7 +36,7 @@ const EditExpense = () => {
         if (data?.data) {
             data.data.id = id;
             updateExpense(data.data);
-            navigate('/expense');
+            navigate('/expense', { state: { editElementSuccess: true } });
         }
     }, [data, updateExpense, navigate, id]);
 
@@ -47,6 +48,7 @@ const EditExpense = () => {
                         {error}
                     </h3>
                 ))}
+            <BotonVolver />
             <Form method="post">
                 <FormExpense expense={expense} />
                 <input className="px-4 py-2 bg-slate-900" type="submit" value="Actualizar gasto" />

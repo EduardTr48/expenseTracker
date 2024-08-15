@@ -33,7 +33,7 @@ const AddExpense = () => {
     useEffect(() => {
         if (data?.data) {
             agregarGasto(data.data);
-            navigate('/expense');
+            navigate('/expense', { state: { addElementSuccess: true } });
         }
     }, [data, agregarGasto, navigate]);
 

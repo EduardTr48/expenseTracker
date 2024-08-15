@@ -1,5 +1,5 @@
 const autoIncrement = () => {
-    let index = 2;
+    let index = 20;
 
     return () => {
         index++;
