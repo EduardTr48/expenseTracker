@@ -1,9 +1,9 @@
-import { formatDate } from '../helpers/formatDate';
-import FormExpense from './FormExpense';
-import { useExpenses } from '../context/ExpensesContext';
-import { useActionData, useNavigate, Form, useParams } from 'react-router-dom';
-import { useEffect } from 'react';
-import BotonVolver from '../UI/BotonVolver';
+import { formatDate } from "../helpers/formatDate";
+import FormExpense from "./FormExpense";
+import { useExpenses } from "../context/ExpensesContext";
+import { useActionData, useNavigate, Form, useParams } from "react-router-dom";
+import { useEffect } from "react";
+import BotonVolver from "../UI/BotonVolver";
 
 export async function action({ request }) {
     const errores = [];
@@ -11,8 +11,8 @@ export async function action({ request }) {
     const data = Object.fromEntries(formData);
     const fechaActual = new Date();
 
-    if (Object.values(data).includes('')) {
-        errores.push('Todos los campos son obligatorios');
+    if (Object.values(data).includes("")) {
+        errores.push("Todos los campos son obligatorios");
     }
     if (errores.length > 0) {
         return { errores };
@@ -36,7 +36,7 @@ const EditExpense = () => {
         if (data?.data) {
             data.data.id = id;
             updateExpense(data.data);
-            navigate('/expense', { state: { editElementSuccess: true } });
+            navigate("/expense", { state: { editElementSuccess: true } });
         }
     }, [data, updateExpense, navigate, id]);
 
@@ -48,10 +48,12 @@ const EditExpense = () => {
                         {error}
                     </h3>
                 ))}
-            <BotonVolver />
-            <Form method="post">
-                <FormExpense expense={expense} />
-                <input className="px-4 py-2 bg-slate-900" type="submit" value="Actualizar gasto" />
+            <Form method="post" className="bg-slate-800  py-5 rounded-xl">
+                <BotonVolver />
+                <FormExpense expense={expense} titulo={"Editar gasto"} />
+                <div className="w-6/12 mx-auto">
+                    <input className="px-4 py-2 bg-slate-900 cursor-pointer" type="submit" value="Añadir gasto" />
+                </div>
             </Form>
         </>
     );

@@ -1,42 +1,42 @@
-import { Link } from 'react-router-dom';
-import { useExpenses } from '../context/ExpensesContext';
+import { Link } from "react-router-dom";
+import { useExpenses } from "../context/ExpensesContext";
+import { obtenerGastoTotal } from "../helpers/obtenerGastoTotal";
+import IconMoneyDollarBoxFill from "./IconMoneyDollarBoxFill";
 
 const Home = () => {
     const { expenses } = useExpenses();
+    const gastoTotal = obtenerGastoTotal(expenses);
     return (
-        <div className="grid grid-cols-2 gap-6 h-full pt-10">
-            <div className="bg-slate-800 rounded-xl">
-                <h2 className="text-center mb-7 mt-2">Gastos Recientes</h2>
-                <table className="table-auto w-11/12 mx-auto mt-2">
-                    <thead className="text-left">
-                        <tr>
-                            <th>Nombre</th>
-                            <th>Precio</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {expenses &&
-                            expenses.map((expense) => {
-                                return (
-                                    <tr className="border-y-2" key={expense.id}>
-                                        <td>{expense.nombre}</td>
-                                        <td>$ {expense.precio}</td>
-                                    </tr>
-                                );
-                            })}
-                    </tbody>
-                </table>
+        <div className="grid grid-cols-3 grid-rows-4 gap-6 h-full pt-10">
+            <div className="col-span-1 row-span-1 w-full bg-slate-800 rounded-xl flex">
+                <div className="bg-slate-700 max-w-28 w-full h-full rounded-xl rounded-r-none">
+                    <IconMoneyDollarBoxFill className={"m-auto h-full text-green-500"} />
+                </div>
+                <div className="flex flex-col w-full justify-center items-center ">
+                    <h2 className="">Ingresos totales: </h2>
+                    <p>${gastoTotal}</p>
+                </div>
             </div>
-            <div className="bg-slate-800 rounded-xl col-span-1">
-                <Link className="w-full my-auto flex justify-center items-center h-full" to={'/addExpense'}>
-                    <p className="text-center m-auto">Acceso Rapido</p>
-                </Link>
+            <div className="col-span-1 row-span-1 w-full bg-slate-800 rounded-xl flex">
+                <div className="bg-slate-700 max-w-28 w-full h-full rounded-xl rounded-r-none">
+                    <IconMoneyDollarBoxFill className={"m-auto h-full text-red-500"} />
+                </div>
+                <div className="flex flex-col w-full justify-center items-center ">
+                    <h2 className="">Gastos Totales: </h2>
+                    <p>${gastoTotal}</p>
+                </div>
             </div>
-            <div className="bg-slate-800 rounded-xl col-span-2">
-                <Link className="w-full my-auto flex justify-center items-center h-full" to={'/addExpense'}>
-                    <p className="text-center m-auto">Reporte del Mes</p>
-                </Link>
+            <div className="col-span-1 row-span-1 w-full bg-slate-800 rounded-xl flex">
+                <div className="bg-slate-700 max-w-28 w-full h-full rounded-xl rounded-r-none">
+                    <IconMoneyDollarBoxFill className={" m-auto h-full text-blue-600"} />
+                </div>
+                <div className="flex flex-col w-full justify-center items-center ">
+                    <h2 className="">Balance: </h2>
+                    <p>${gastoTotal}</p>
+                </div>
             </div>
+            <div className="col-span-1 row-span-3 bg-slate-800 rounded-xl"></div>
+            <div className="col-span-2 row-span-3 bg-slate-800 rounded-xl"></div>
         </div>
     );
 };

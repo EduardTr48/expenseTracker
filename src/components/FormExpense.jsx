@@ -1,16 +1,15 @@
-import { useState } from 'react';
+import { useState } from "react";
 
-const FormExpense = ({ expense: gasto }) => {
-    const [expense, setExpense] = useState(gasto || { nombre: '', precio: '', categoria: '' });
+const FormExpense = ({ expense: gasto, titulo }) => {
+    const [expense, setExpense] = useState(gasto || { nombre: "", precio: "", categoria: "" });
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setExpense({ ...expense, [name]: value });
     };
-
     return (
         <>
-            <h2 className="text-center text-4xl">Add Expense</h2>
+            <h2 className="text-center text-4xl">{titulo}</h2>
 
             <div className="w-6/12 mx-auto ">
                 <div className="mb-4">
