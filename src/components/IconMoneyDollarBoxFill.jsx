@@ -7,15 +7,15 @@ function IconMoneyDollarBoxFill(props) {
             version="1.1"
             id="Capa_1"
             xmlns="http://www.w3.org/2000/svg"
-            xmlns:xlink="http://www.w3.org/1999/xlink"
+            xmlnsXlink="http://www.w3.org/1999/xlink"
             viewBox="-44.75 -44.75 325.02 325.02"
-            xml:space="preserve"
-            stroke-width="0.00235517"
+            xmlSpace="preserve"
+            strokeWidth="0.00235517"
             fill="currentColor"
             {...props}
         >
-            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+            <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+            <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
             <g id="SVGRepo_iconCarrier">
                 {" "}
                 <g>
