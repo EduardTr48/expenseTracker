@@ -9,6 +9,10 @@ import AddExpense, { action as AddExpenseAction } from './components/AddExpense'
 import { ExpensesProvider } from './context/ExpensesContext';
 import EditExpense, { action as EditExpenseAction } from './components/EditExpense';
 import ReportMonth from './components/ReportMonth';
+import { IncomesProvider } from './context/IncomesContext';
+import Incomes from './components/Incomes';
+import AddIncome, { action as AddIncomeAction } from './components/AddIncome';
+import EditIncome, { action as EditIncomeAction } from './components/EditIncome';
 
 const router = createBrowserRouter([
     {
@@ -29,6 +33,16 @@ const router = createBrowserRouter([
                 action: AddExpenseAction,
             },
             {
+                path: '/addIncome',
+                element: <AddIncome />,
+                action: AddIncomeAction,
+            },
+            {
+                path: '/editIncome/:id',
+                element: <EditIncome />,
+                action: EditIncomeAction,
+            },
+            {
                 path: '/editExpense/:id',
                 element: <EditExpense />,
                 action: EditExpenseAction,
@@ -37,6 +51,10 @@ const router = createBrowserRouter([
                 path: '/reportMonth',
                 element: <ReportMonth />,
             },
+            {
+                path: '/incomes',
+                element: <Incomes />,
+            },
         ],
     },
 ]);
@@ -44,7 +62,9 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
         <ExpensesProvider>
-            <RouterProvider router={router} />
+            <IncomesProvider>
+                <RouterProvider router={router} />
+            </IncomesProvider>
         </ExpensesProvider>
     </React.StrictMode>
 );

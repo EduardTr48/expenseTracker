@@ -1,42 +1,45 @@
-import { Form, useActionData, useNavigate } from 'react-router-dom';
-
 import FormTransaction from './FormTransaction';
-import { useEffect } from 'react';
-import { useExpenses } from '../context/ExpensesContext';
-import { nextId } from '../helpers/autoIncrement';
+import { Form, useActionData, useParams, useNavigate } from 'react-router-dom';
+import { useIncomes } from '../context/IncomesContext';
 import { formatDate } from '../helpers/formatDate';
-import BotonVolver from '../UI/BotonVolver';
+import { useEffect } from 'react';
 
 export async function action({ request }) {
-    console.log('desde action');
     const errores = [];
     const formData = await request.formData();
-    const fechaActual = new Date();
     const data = Object.fromEntries(formData);
+    const fechaActual = new Date();
+
     if (Object.values(data).includes('')) {
         errores.push('Todos los campos son obligatorios');
     }
+
     if (errores.length > 0) {
         return { errores };
     }
-    data.id = nextId();
+
     data.fecha = formatDate(fechaActual);
     return { data };
 }
 
-const AddExpense = () => {
-    const { addExpense: agregarGasto } = useExpenses();
+const EditIncome = () => {
+    const { incomes, updateIncomes } = useIncomes();
     const data = useActionData();
+    console.log(data?.data);
     const errores = data?.errores;
+    const params = useParams();
     const navigate = useNavigate();
+
+    const id = params.id;
+    const income = incomes.find((income) => income.id == id);
 
     useEffect(() => {
         if (data?.data) {
-            agregarGasto(data.data);
-            navigate('/expense', { state: { addElementSuccess: true } });
+            data.data.id = id;
+            updateIncomes(data.data);
+            navigate('/incomes', { state: { editElementSuccess: true } });
         }
-    }, [data, agregarGasto, navigate]);
-
+    }, [data, updateIncomes, navigate, id]);
     return (
         <>
             {errores &&
@@ -46,14 +49,13 @@ const AddExpense = () => {
                     </h3>
                 ))}
             <Form method="post" className="bg-slate-800  py-5 rounded-xl">
-                <BotonVolver />
-                <FormTransaction titulo={'Agregar gasto'} />
+                <FormTransaction entry={income} titulo={'Editar ingreso'} isIncome={true} />
                 <div className="w-6/12 mx-auto">
-                    <input className="px-4 py-2 bg-slate-900 cursor-pointer" type="submit" value="Añadir gasto" />
+                    <input className="px-4 py-2 bg-slate-900 cursor-pointer" type="submit" value="Editar ingreso" />
                 </div>
             </Form>
         </>
     );
 };
 
-export default AddExpense;
+export default EditIncome;

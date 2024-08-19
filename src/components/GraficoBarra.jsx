@@ -1,5 +1,4 @@
-import React from "react";
-import { BarChart, XAxis, YAxis, Tooltip, Legend, Bar } from "recharts";
+import { BarChart, XAxis, YAxis, Tooltip, Bar } from 'recharts';
 
 const GraficoBarra = ({ data, dataXA, dataBar }) => {
     return (

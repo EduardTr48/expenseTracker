@@ -17,7 +17,9 @@ const App = () => {
                         <Link className="px-3 py-2 ml-4 max-w-48 w-full hover:bg-slate-500 hover:rounded-md" to={'/expense'}>
                             Gastos
                         </Link>
-
+                        <Link className="px-3 py-2 ml-4 max-w-48 w-full hover:bg-slate-500 hover:rounded-md" to={'/incomes'}>
+                            Ingresos
+                        </Link>
                         <Link className="px-3 py-2 ml-4 max-w-48 w-full hover:bg-slate-500 hover:rounded-md" to={'/reportMonth'}>
                             Reporte del Mes
                         </Link>
