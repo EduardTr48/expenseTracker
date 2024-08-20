@@ -6,7 +6,9 @@ const App = () => {
             <div className="bg-slate-800 col-span-1">
                 <aside className="h-full">
                     <div className="pt-6 w-full">
-                        <div className="bg-slate-400 w-28 h-28 rounded-full mx-auto"></div>
+                        <div className="bg-slate-400 w-28 h-28 rounded-full mx-auto">
+                            <img className="w-full h-full object-cover" src="/src/assets/img/usuario.png" alt="imagen del usuario" />
+                        </div>
                         <p className="pt-3 text-center text-white">Eduardo Rodriguez</p>
                     </div>
 

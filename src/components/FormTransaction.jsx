@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import BotonVolver from '../UI/BotonVolver';
 
 const FormTransaction = ({ entry: transaction, titulo, isIncome = false }) => {
     const [entry, setEntry] = useState(transaction || { nombre: '', [isIncome ? 'monto' : 'precio']: '', categoria: '' });
@@ -14,6 +15,7 @@ const FormTransaction = ({ entry: transaction, titulo, isIncome = false }) => {
 
     return (
         <>
+            <BotonVolver />
             <h2 className="text-center text-4xl">{titulo}</h2>
 
             <div className="w-6/12 mx-auto ">
