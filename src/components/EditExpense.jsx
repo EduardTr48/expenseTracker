@@ -4,6 +4,7 @@ import { useActionData, useNavigate, Form, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import BotonVolver from '../UI/BotonVolver';
 import FormTransaction from './FormTransaction';
+import { updateExpenseAPI } from '../services/api';
 export async function action({ request }) {
     const errores = [];
     const formData = await request.formData();
@@ -18,6 +19,7 @@ export async function action({ request }) {
     }
 
     data.fecha = formatDate(fechaActual);
+
     return { data };
 }
 
@@ -30,10 +32,15 @@ const EditExpense = () => {
     const navigate = useNavigate();
 
     const expense = expenses.find((expense) => expense.id === id);
-
+    console.log(expense);
     useEffect(() => {
         if (data?.data) {
             data.data.id = id;
+            try {
+                updateExpenseAPI(id, data.data);
+            } catch (error) {
+                console.log('Error al actualizar el gasto');
+            }
             updateExpense(data.data);
             navigate('/expense', { state: { editElementSuccess: true } });
         }

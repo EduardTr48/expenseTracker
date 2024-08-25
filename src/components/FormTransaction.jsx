@@ -1,21 +1,31 @@
-import { useState } from 'react';
-import BotonVolver from '../UI/BotonVolver';
+import { useEffect, useState } from 'react';
+import { obtenerCategorias } from '../services/api';
 
 const FormTransaction = ({ entry: transaction, titulo, isIncome = false }) => {
     const [entry, setEntry] = useState(transaction || { nombre: '', [isIncome ? 'monto' : 'precio']: '', categoria: '' });
-
+    const [categoriesExpense, setCategoriesExpense] = useState([]);
     const handleChange = (e) => {
         const { name, value } = e.target;
         setEntry({ ...entry, [name]: value });
     };
 
+    useEffect(() => {
+        const fetchCategorias = async () => {
+            const resultado = await obtenerCategorias();
+            setCategoriesExpense(resultado);
+        };
+
+        if (!isIncome) {
+            fetchCategorias();
+        }
+        fetchCategorias();
+    }, [isIncome]);
+
     const incomeCategories = ['Salario', 'Freelance', 'Inversiones', 'Otros', 'Regalo'];
-    const expenseCategories = ['comida', 'ropa', 'dolarblue', 'ahorro', 'transferencia', 'medicamentos', 'ocio'];
-    const categories = isIncome ? incomeCategories : expenseCategories;
+    const categories = isIncome ? incomeCategories : categoriesExpense;
 
     return (
         <>
-            <BotonVolver />
             <h2 className="text-center text-4xl">{titulo}</h2>
 
             <div className="w-6/12 mx-auto ">
@@ -31,9 +41,9 @@ const FormTransaction = ({ entry: transaction, titulo, isIncome = false }) => {
                     <label>Categoria</label>
                     <select className="w-full text-gray-900 px-1" name="categoria" value={entry?.categoria} onChange={handleChange}>
                         <option value="">---Seleccione---</option>
-                        {categories.map((category, index) => (
-                            <option key={index} value={category}>
-                                {category}
+                        {categories.map((category) => (
+                            <option key={category.id} value={category.id}>
+                                {category.name}
                             </option>
                         ))}
                     </select>

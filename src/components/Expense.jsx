@@ -3,6 +3,8 @@ import { useExpenses } from '../context/ExpensesContext';
 import { useState } from 'react';
 import Modal from './Modal';
 import Notification from './Notification';
+import { categorias } from '../helpers/categorias';
+import { deleteExpenseAPI } from '../services/api';
 const Expense = () => {
     const location = useLocation();
     const { addElementSuccess } = location.state || {};
@@ -13,10 +15,10 @@ const Expense = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [elementDelete, setElementDelete] = useState(null);
     const navigate = useNavigate();
-    const { expenses, deleteExpense } = useExpenses();
+    const { expenses, deleteExpense, loading, error } = useExpenses();
     const [categoria, setCategoria] = useState('');
     const [buscarNombre, setBuscarNombre] = useState('');
-    const categorias = [...new Set(expenses.map((expense) => expense.categoria))];
+    const categoriasFiltrar = [...new Set(expenses.map((expense) => categorias[expense.categoria]))];
 
     const filteredExpenses = expenses.filter((expense) => {
         const matchesCategoria = categoria ? expense.categoria === categoria : true;
@@ -33,8 +35,13 @@ const Expense = () => {
         openModal();
     };
 
-    const eliminarGasto = (id) => {
+    const eliminarGasto = async (id) => {
         deleteExpense(id);
+        try {
+            await deleteExpenseAPI(id);
+        } catch (error) {
+            console.log('El gasto no pudo ser eliminado');
+        }
         setNotification({ isOpen: true, message: 'El gasto fue eliminado correctamente' });
         closeModal();
     };
@@ -69,6 +76,9 @@ const Expense = () => {
             <Modal isOpen={isModalOpen} onClose={closeModal} onConfirm={() => eliminarGasto(elementDelete)} title={'Eliminar el gasto'}>
                 <p>Estas seguro que deseas eliminar el gasto?</p>
             </Modal>
+            {loading && <p className="text-center">Cargando...</p>}
+            {error && <p className="text-center text-red-500">{error}</p>}
+
             <div className="grid grid-cols-3 gap-6">
                 <div className="bg-slate-800 hover:bg-slate-700 cursor-pointer rounded-xl">
                     <Link className="w-full my-auto flex justify-center items-center h-32" to={'/addExpense'}>
@@ -79,7 +89,7 @@ const Expense = () => {
                     <p className="pt-4 text-center pb-4">Filtrar</p>
                     <select value={categoria} onChange={handleCategoriaChange} className="block w-11/12 mx-auto">
                         <option value="">Ninguna</option>
-                        {categorias.map((categoria) => (
+                        {categoriasFiltrar.map((categoria) => (
                             <option key={categoria} value={categoria}>
                                 {categoria}
                             </option>
@@ -109,7 +119,7 @@ const Expense = () => {
                                             <td>{expense.id}</td>
                                             <td>{expense.nombre}</td>
                                             <td>$ {expense.precio}</td>
-                                            <td>{expense.categoria}</td>
+                                            <td>{categorias[expense.categoria]}</td>
                                             <td>{expense.fecha}</td>
                                             <td className="flex justify-end flex-wrap">
                                                 <button className="px-4 py-2 bg-slate-900 hover:bg-slate-950" onClick={() => handleEditar(expense.id)}>

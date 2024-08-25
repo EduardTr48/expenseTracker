@@ -1,11 +1,13 @@
+import { categorias } from './categorias';
+
 export const obtenerGastosPorCategoria = (expenses) => {
     const totalPorCategoria = expenses.reduce((acc, expense) => {
         const { categoria, precio } = expense;
-        if (!acc[categoria]) {
-            acc[categoria] = 0;
+        if (!acc[categorias[categoria]]) {
+            acc[categorias[categoria]] = 0;
         }
 
-        acc[categoria] += +precio;
+        acc[categorias[categoria]] += +precio;
         return acc;
     }, {});
 

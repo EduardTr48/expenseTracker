@@ -3,12 +3,11 @@ import { Form, useActionData, useNavigate } from 'react-router-dom';
 import FormTransaction from './FormTransaction';
 import { useEffect } from 'react';
 import { useExpenses } from '../context/ExpensesContext';
-import { nextId } from '../helpers/autoIncrement';
 import { formatDate } from '../helpers/formatDate';
 import BotonVolver from '../UI/BotonVolver';
+import { addExpenseAPI } from '../services/api';
 
 export async function action({ request }) {
-    console.log('desde action');
     const errores = [];
     const formData = await request.formData();
     const fechaActual = new Date();
@@ -19,9 +18,16 @@ export async function action({ request }) {
     if (errores.length > 0) {
         return { errores };
     }
-    data.id = nextId();
     data.fecha = formatDate(fechaActual);
-    return { data };
+
+    try {
+        const response = await addExpenseAPI(data);
+        return { response };
+    } catch (error) {
+        console.error('Error al agregar el gasto:', error);
+        // Podrías mostrar un mensaje de error al usuario aquí
+    }
+    return null;
 }
 
 const AddExpense = () => {
@@ -29,10 +35,10 @@ const AddExpense = () => {
     const data = useActionData();
     const errores = data?.errores;
     const navigate = useNavigate();
-
     useEffect(() => {
-        if (data?.data) {
-            agregarGasto(data.data);
+        if (data?.response) {
+            console.log(data.response);
+            agregarGasto(data.response);
             navigate('/expense', { state: { addElementSuccess: true } });
         }
     }, [data, agregarGasto, navigate]);
