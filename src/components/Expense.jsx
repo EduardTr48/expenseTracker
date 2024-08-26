@@ -18,8 +18,7 @@ const Expense = () => {
     const { expenses, deleteExpense, loading, error } = useExpenses();
     const [categoria, setCategoria] = useState('');
     const [buscarNombre, setBuscarNombre] = useState('');
-    const categoriasFiltrar = [...new Set(expenses.map((expense) => categorias[expense.categoria]))];
-
+    const categoriasFiltrar = [...new Set(expenses.map((expense) => expense.categoria))];
     const filteredExpenses = expenses.filter((expense) => {
         const matchesCategoria = categoria ? expense.categoria === categoria : true;
         const matchesNombre = buscarNombre ? expense.nombre.toLowerCase().includes(buscarNombre.toLowerCase()) : true;
@@ -56,7 +55,7 @@ const Expense = () => {
     };
 
     const handleCategoriaChange = (e) => {
-        setCategoria(e.target.value);
+        setCategoria(Number(e.target.value));
     };
 
     const openModal = () => {
@@ -91,7 +90,7 @@ const Expense = () => {
                         <option value="">Ninguna</option>
                         {categoriasFiltrar.map((categoria) => (
                             <option key={categoria} value={categoria}>
-                                {categoria}
+                                {categorias[categoria]}
                             </option>
                         ))}
                     </select>
