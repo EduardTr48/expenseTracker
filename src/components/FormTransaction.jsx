@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { obtenerCategorias } from '../services/api';
-
+import { categorias } from '../helpers/categorias';
 const FormTransaction = ({ entry: transaction, titulo, isIncome = false }) => {
     const [entry, setEntry] = useState(transaction || { nombre: '', [isIncome ? 'monto' : 'precio']: '', categoria: '' });
     const [categoriesExpense, setCategoriesExpense] = useState([]);
@@ -43,7 +43,7 @@ const FormTransaction = ({ entry: transaction, titulo, isIncome = false }) => {
                         <option value="">---Seleccione---</option>
                         {categories.map((category) => (
                             <option key={category.id} value={category.id}>
-                                {category.name}
+                                {categorias[category.id]}
                             </option>
                         ))}
                     </select>
