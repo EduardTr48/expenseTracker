@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useExpenses } from '../context/ExpensesContext';
-import { useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import Modal from './Modal';
 import Notification from './Notification';
 import { categorias } from '../helpers/categorias';
@@ -19,48 +19,58 @@ const Expense = () => {
     const [categoria, setCategoria] = useState('');
     const [buscarNombre, setBuscarNombre] = useState('');
     const categoriasFiltrar = [...new Set(expenses.map((expense) => expense.categoria))];
-    const filteredExpenses = expenses.filter((expense) => {
-        const matchesCategoria = categoria ? expense.categoria === categoria : true;
-        const matchesNombre = buscarNombre ? expense.nombre.toLowerCase().includes(buscarNombre.toLowerCase()) : true;
-        return matchesCategoria && matchesNombre;
-    });
+    const filteredExpenses = useMemo(() => {
+        return expenses.filter((expense) => {
+            const matchesCategoria = categoria ? expense.categoria === categoria : true;
+            const matchesNombre = buscarNombre ? expense.nombre.toLowerCase().includes(buscarNombre.toLowerCase()) : true;
+            return matchesCategoria && matchesNombre;
+        });
+    }, [expenses, buscarNombre, categoria]);
 
-    const handleEditar = (id) => {
-        navigate(`/editExpense/${id}`);
-    };
+    const handleEditar = useCallback(
+        (id) => {
+            navigate(`/editExpense/${id}`);
+        },
+        [navigate]
+    );
+    const openModal = useCallback(() => {
+        setIsModalOpen(true);
+    }, []);
 
-    const handleEliminar = (id) => {
-        setElementDelete(id);
-        openModal();
-    };
-
-    const eliminarGasto = async (id) => {
-        deleteExpense(id);
-        try {
-            await deleteExpenseAPI(id);
-        } catch (error) {
-            console.log('El gasto no pudo ser eliminado');
-        }
-        setNotification({ isOpen: true, message: 'El gasto fue eliminado correctamente' });
-        closeModal();
-    };
-
-    const closeModal = () => {
+    const closeModal = useCallback(() => {
         setIsModalOpen(false);
         setElementDelete(null);
-    };
+    }, []);
 
-    const handleBuscarNombre = (e) => {
+    const handleEliminar = useCallback(
+        (id) => {
+            setElementDelete(id);
+            openModal();
+        },
+        [openModal]
+    );
+
+    const eliminarGasto = useCallback(
+        async (id) => {
+            deleteExpense(id);
+            try {
+                await deleteExpenseAPI(id);
+            } catch (error) {
+                console.log('El gasto no pudo ser eliminado');
+            }
+            setNotification({ isOpen: true, message: 'El gasto fue eliminado correctamente' });
+            closeModal();
+        },
+        [closeModal, deleteExpense]
+    );
+
+    const handleBuscarNombre = useCallback((e) => {
         setBuscarNombre(e.target.value);
-    };
+    }, []);
 
-    const handleCategoriaChange = (e) => {
+    const handleCategoriaChange = useCallback((e) => {
         setCategoria(Number(e.target.value));
-    };
-
-    const openModal = () => {
-        setIsModalOpen(true);
-    };
+    }, []);
 
     return (
         <>
