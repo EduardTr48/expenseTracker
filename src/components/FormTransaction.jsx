@@ -1,28 +1,22 @@
 import { useEffect, useState } from 'react';
-import { obtenerCategorias } from '../services/api';
-import { categorias } from '../helpers/categorias';
+import { getCategoriesAPI } from '../services/categoryService';
 const FormTransaction = ({ entry: transaction, titulo, isIncome = false }) => {
     const [entry, setEntry] = useState(transaction || { nombre: '', [isIncome ? 'monto' : 'precio']: '', categoria: '' });
-    const [categoriesExpense, setCategoriesExpense] = useState([]);
+    const [categories, setCategories] = useState([]);
     const handleChange = (e) => {
         const { name, value } = e.target;
         setEntry({ ...entry, [name]: value });
     };
 
     useEffect(() => {
+        const typeCategory = isIncome ? 'INCOME' : 'EXPENSE';
         const fetchCategorias = async () => {
-            const resultado = await obtenerCategorias();
-            setCategoriesExpense(resultado);
+            const data = await getCategoriesAPI(typeCategory);
+            setCategories(data);
         };
 
-        if (!isIncome) {
-            fetchCategorias();
-        }
         fetchCategorias();
     }, [isIncome]);
-
-    const incomeCategories = ['Salario', 'Freelance', 'Inversiones', 'Otros', 'Regalo'];
-    const categories = isIncome ? incomeCategories : categoriesExpense;
 
     return (
         <>
@@ -43,7 +37,7 @@ const FormTransaction = ({ entry: transaction, titulo, isIncome = false }) => {
                         <option value="">---Seleccione---</option>
                         {categories.map((category) => (
                             <option key={category.id} value={category.id}>
-                                {categorias[category.id]}
+                                {category.name}
                             </option>
                         ))}
                     </select>

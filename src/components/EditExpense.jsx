@@ -1,18 +1,18 @@
-import { formatDate } from "../helpers/formatDate";
-import { useExpenses } from "../context/ExpensesContext";
-import { useActionData, useNavigate, Form, useParams } from "react-router-dom";
-import { useEffect } from "react";
-import BotonVolver from "../UI/botonVolver";
-import FormTransaction from "./FormTransaction";
-import { updateExpenseAPI } from "../services/api";
+import { formatDate } from '../helpers/formatDate';
+import { useExpenses } from '../context/ExpensesContext';
+import { useActionData, useNavigate, Form, useParams } from 'react-router-dom';
+import { useEffect } from 'react';
+import BotonVolver from '../UI/BotonVolver';
+import FormTransaction from './FormTransaction';
+import { updateExpenseAPI } from '../services/api';
 export async function action({ request }) {
     const errores = [];
     const formData = await request.formData();
     const data = Object.fromEntries(formData);
     const fechaActual = new Date();
 
-    if (Object.values(data).includes("")) {
-        errores.push("Todos los campos son obligatorios");
+    if (Object.values(data).includes('')) {
+        errores.push('Todos los campos son obligatorios');
     }
     if (errores.length > 0) {
         return { errores };
@@ -39,10 +39,10 @@ const EditExpense = () => {
             try {
                 updateExpenseAPI(id, data.data);
             } catch (error) {
-                console.log("Error al actualizar el gasto");
+                console.log('Error al actualizar el gasto');
             }
             updateExpense(data.data);
-            navigate("/expense", { state: { editElementSuccess: true } });
+            navigate('/expense', { state: { editElementSuccess: true } });
         }
     }, [data, updateExpense, navigate, id]);
 
@@ -56,9 +56,9 @@ const EditExpense = () => {
                 ))}
             <Form method="post" className="bg-slate-800  py-5 rounded-xl">
                 <BotonVolver />
-                <FormTransaction entry={expense} titulo={"Editar gasto"} />
+                <FormTransaction entry={expense} titulo={'Editar gasto'} />
                 <div className="w-6/12 mx-auto">
-                    <input className="px-4 py-2 bg-slate-900 cursor-pointer" type="submit" value="Añadir gasto" />
+                    <input className="px-4 py-2 bg-slate-900 cursor-pointer" type="submit" value="Editar gasto" />
                 </div>
             </Form>
         </>
