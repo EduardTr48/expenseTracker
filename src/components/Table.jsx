@@ -1,7 +1,8 @@
-import React from "react";
-import { categorias } from "../helpers/categorias";
+import { useCategories } from '../context/CategoriesContext';
 
 const Table = ({ expenses, handleEditar, handleEliminar }) => {
+    const { categoriesMap } = useCategories();
+
     return (
         <>
             <table className="table-auto w-11/12 mx-auto mt-2">
@@ -21,7 +22,7 @@ const Table = ({ expenses, handleEditar, handleEliminar }) => {
                             <td>{expense.id}</td>
                             <td>{expense.nombre}</td>
                             <td>$ {expense.precio}</td>
-                            <td>{categorias[expense.categoria]}</td>
+                            <td>{categoriesMap[expense.categoria]}</td>
                             <td>{expense.fecha}</td>
                             <td className="flex justify-end flex-wrap">
                                 <button className="px-4 py-2 bg-slate-900 hover:bg-slate-950" onClick={() => handleEditar(expense.id)}>

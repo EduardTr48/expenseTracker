@@ -1,6 +1,4 @@
-import { categorias } from './categorias';
-
-export const obtenerGastosPorCategoria = (expenses) => {
+export const obtenerGastosPorCategoria = (expenses, categorias) => {
     const totalPorCategoria = expenses.reduce((acc, expense) => {
         const { categoria, precio } = expense;
         if (!acc[categorias[categoria]]) {

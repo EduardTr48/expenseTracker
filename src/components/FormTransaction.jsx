@@ -1,22 +1,17 @@
 import { useEffect, useState } from 'react';
-import { getCategoriesAPI } from '../services/categoryService';
+import { useCategories } from '../context/CategoriesContext';
 const FormTransaction = ({ entry: transaction, titulo, isIncome = false }) => {
     const [entry, setEntry] = useState(transaction || { nombre: '', [isIncome ? 'monto' : 'precio']: '', categoria: '' });
     const [categories, setCategories] = useState([]);
+    const { categoriesExpense, categoriesIncome } = useCategories();
     const handleChange = (e) => {
         const { name, value } = e.target;
         setEntry({ ...entry, [name]: value });
     };
 
     useEffect(() => {
-        const typeCategory = isIncome ? 'INCOME' : 'EXPENSE';
-        const fetchCategorias = async () => {
-            const data = await getCategoriesAPI(typeCategory);
-            setCategories(data);
-        };
-
-        fetchCategorias();
-    }, [isIncome]);
+        setCategories(isIncome ? categoriesIncome : categoriesExpense);
+    }, [categoriesExpense, categoriesIncome, isIncome]);
 
     return (
         <>

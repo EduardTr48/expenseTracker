@@ -7,6 +7,7 @@ import Expense from './components/Expense';
 import Home from './components/Home';
 import AddExpense, { action as AddExpenseAction } from './components/AddExpense';
 import { ExpensesProvider } from './context/ExpensesContext';
+import { CategoriesProvider } from './context/CategoriesContext';
 import EditExpense, { action as EditExpenseAction } from './components/EditExpense';
 import ReportMonth from './components/ReportMonth';
 import { IncomesProvider } from './context/IncomesContext';
@@ -61,10 +62,12 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
-        <ExpensesProvider>
-            <IncomesProvider>
-                <RouterProvider router={router} />
-            </IncomesProvider>
-        </ExpensesProvider>
+        <CategoriesProvider>
+            <ExpensesProvider>
+                <IncomesProvider>
+                    <RouterProvider router={router} />
+                </IncomesProvider>
+            </ExpensesProvider>
+        </CategoriesProvider>
     </React.StrictMode>
 );

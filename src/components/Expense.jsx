@@ -1,9 +1,9 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useExpenses } from '../context/ExpensesContext';
 import { useCallback, useMemo, useState } from 'react';
+import { useCategories } from '../context/CategoriesContext';
 import Modal from './Modal';
 import Notification from './Notification';
-import { categorias } from '../helpers/categorias';
 import { deleteExpenseAPI } from '../services/api';
 import Table from './Table';
 const Expense = () => {
@@ -22,7 +22,7 @@ const Expense = () => {
     const { expenses, deleteExpense, loading, error } = useExpenses();
     const [categoria, setCategoria] = useState('');
     const [buscarNombre, setBuscarNombre] = useState('');
-    const categoriasFiltrar = [...new Set(expenses.map((expense) => expense.categoria))];
+    const { categoriesExpense } = useCategories();
     const filteredExpenses = useMemo(() => {
         return expenses.filter((expense) => {
             const matchesCategoria = categoria ? expense.categoria === categoria : true;
@@ -108,9 +108,9 @@ const Expense = () => {
                     <p className="pt-4 text-center pb-4">Filtrar</p>
                     <select value={categoria} onChange={handleCategoriaChange} className="block w-11/12 mx-auto">
                         <option value="">Ninguna</option>
-                        {categoriasFiltrar.map((categoria) => (
-                            <option key={categoria} value={categoria}>
-                                {categorias[categoria]}
+                        {categoriesExpense.map((categoria) => (
+                            <option key={categoria.id} value={categoria.id}>
+                                {categoria.name}
                             </option>
                         ))}
                     </select>
