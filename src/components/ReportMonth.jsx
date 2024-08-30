@@ -5,11 +5,13 @@ import { obtenerGastosPorCategoria } from '../helpers/obtenerGastosPorCategoria'
 import { useState } from 'react';
 import { formatDDYY } from '../helpers/formatDate';
 import { obtenerGastoTotal } from '../helpers/obtenerGastoTotal';
+import { useCategories } from '../context/CategoriesContext';
 const ReportMonth = () => {
     const { expenses } = useExpenses();
+    const { categoriesMap } = useCategories();
     const [date, setDate] = useState('08-2024');
     const dataFilterDate = obtenerGastosPorFecha(expenses, date);
-    const data = obtenerGastosPorCategoria(dataFilterDate);
+    const data = obtenerGastosPorCategoria(dataFilterDate, categoriesMap);
     const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#A4DE02', '#D0ED57', '#FF7F50'];
     const gastoTotal = obtenerGastoTotal(dataFilterDate);
     const CustomTooltip = ({ active, payload }) => {

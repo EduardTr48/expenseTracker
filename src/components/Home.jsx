@@ -7,12 +7,14 @@ import { obtenerGastosPorMes } from '../helpers/obtenerGastosPorMes';
 import GraficoBarra from './GraficoBarra';
 import { useIncomes } from '../context/IncomesContext';
 import { obtenerIngresoTotal } from '../helpers/ObtenerIngresoTotal';
+import { useCategories } from '../context/CategoriesContext';
 const Home = () => {
     const { expenses } = useExpenses();
+    const { categoriesMap } = useCategories();
     const { incomes } = useIncomes();
     const gastoTotal = obtenerGastoTotal(expenses);
     const ingresoTotal = obtenerIngresoTotal(incomes);
-    const data = obtenerGastosPorCategoria(expenses);
+    const data = obtenerGastosPorCategoria(expenses, categoriesMap);
     const gastosPorMes = obtenerGastosPorMes(expenses);
 
     return (
