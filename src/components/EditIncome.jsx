@@ -44,7 +44,7 @@ const EditIncome = () => {
                 console.log('Error al actualizar el ingreso');
             }
             updateIncomes(data.data);
-            navigate('/incomes', { state: { editElementSuccess: true } });
+            navigate('/incomes', { state: { editElementSuccess: true }, replace: true });
         }
     }, [data, updateIncomes, navigate, id]);
     return (

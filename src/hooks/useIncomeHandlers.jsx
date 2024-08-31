@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { deleteIncomeAPI } from '../services/incomeService';
 
-const useIncomeHandlers = (setElementDelete, openModal, setNotification, closeModal, deleteIncomes) => {
+const useIncomeHandlers = ({ setElementDelete, openModal, setNotification, closeModal, deleteIncomes }) => {
     const navigate = useNavigate();
 
     const handleEditar = (id) => {

@@ -1,4 +1,4 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Modal from '../UI/Modal';
 import Notification from '../UI/Notification';
 import { useIncomes } from '../context/IncomesContext';
@@ -9,14 +9,27 @@ import useModal from '../hooks/useModal';
 import useFilterdData from '../hooks/useFilterdData';
 import { AddLink, FilterCategory, FilterSearch } from '../UI';
 import useIncomeHandlers from '../hooks/useIncomeHandlers';
+import { useEffect } from 'react';
+
 const Incomes = () => {
     const location = useLocation();
+    const navigate = useNavigate();
+    const editElementSuccess = location.state?.editElementSuccess;
     const { notification, setNotification } = useNotification(location);
     const { isModalOpen, elementDelete, openModal, closeModal, setElementDelete } = useModal();
     const { incomes, deleteIncomes } = useIncomes();
     const { categoriesIncome } = useCategories();
     const { categoria, buscarNombre, filterdData, setBuscarNombre, setCategoria } = useFilterdData(incomes);
-    const { handleEditar, handleEliminar, eliminarIngreso } = useIncomeHandlers(setElementDelete, openModal, deleteIncomes, setNotification, closeModal);
+    const { handleEditar, handleEliminar, eliminarIngreso } = useIncomeHandlers({ setElementDelete, openModal, setNotification, closeModal, deleteIncomes });
+
+    useEffect(() => {
+        if (editElementSuccess) {
+            console.log(location);
+            const stateCopy = { ...location.state };
+            delete stateCopy.editElementSuccess;
+            navigate(location.pathname, { replace: true, state: stateCopy });
+        }
+    }, [editElementSuccess, location, navigate]);
 
     return (
         <>
