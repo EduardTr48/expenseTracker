@@ -32,7 +32,7 @@ const Incomes = () => {
                 <AddLink link={'/addIncome'} title={'Agregar ingreso'} />
                 <FilterCategory categoria={categoria} categories={categoriesIncome} onCategoriaChange={(e) => setCategoria(Number(e.target.value))} />
                 <FilterSearch buscarNombre={buscarNombre} onBuscarNombreChange={(e) => setBuscarNombre(e.target.value)} />
-                <Table isIncome={true} data={filterdData} handleEditar={handleEditar} handleEliminar={handleEliminar} />
+                <Table isIncome data={filterdData} handleEditar={handleEditar} handleEliminar={handleEliminar} />
             </div>
         </>
     );
