@@ -4,7 +4,7 @@ import { useActionData, useNavigate, Form, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import BotonVolver from '../UI/BotonVolver';
 import FormTransaction from './FormTransaction';
-import { updateExpenseAPI } from '../services/api';
+import { updateExpenseAPI } from '../services/expenseService';
 export async function action({ request }) {
     const errores = [];
     const formData = await request.formData();

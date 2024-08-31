@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
-import { getExpensesAPI } from '../services/api';
+import { getExpensesAPI } from '../services/expenseService';
 
 const ExpensesContext = createContext();
 

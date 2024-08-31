@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { useExpenses } from '../context/ExpensesContext';
 import { formatDate } from '../helpers/formatDate';
 import BotonVolver from '../UI/BotonVolver';
-import { addExpenseAPI } from '../services/api';
+import { addExpenseAPI } from '../services/expenseService';
 
 export async function action({ request }) {
     const errores = [];

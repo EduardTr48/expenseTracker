@@ -4,7 +4,7 @@ import { useCallback, useMemo, useState } from 'react';
 import { useCategories } from '../context/CategoriesContext';
 import Modal from './Modal';
 import Notification from './Notification';
-import { deleteExpenseAPI } from '../services/api';
+import { deleteExpenseAPI } from '../services/expenseService';
 import Table from './Table';
 const Expense = () => {
     const location = useLocation();
