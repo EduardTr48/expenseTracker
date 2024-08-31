@@ -35,7 +35,7 @@ const Expense = () => {
 
             <div className="grid grid-cols-3 gap-6">
                 <AddLink link={'/addExpense'} title={'Agregar gasto'} />
-                <FilterCategory categoria={categoria} onCategoriaChange={(e) => setCategoria(Number(e.target.value))} categoriesExpense={categoriesExpense} />
+                <FilterCategory categoria={categoria} categories={categoriesExpense} onCategoriaChange={(e) => setCategoria(Number(e.target.value))} />
                 <FilterSearch buscarNombre={buscarNombre} onBuscarNombreChange={(e) => setBuscarNombre(e.target.value)} />
                 {<Table isIncome={false} data={filterdData} handleEditar={handleEditar} handleEliminar={handleEliminar} />}
             </div>
