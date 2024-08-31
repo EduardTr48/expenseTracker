@@ -1,6 +1,6 @@
 import { useCategories } from '../context/CategoriesContext';
 
-const Table = ({ expenses, handleEditar, handleEliminar }) => {
+const Table = ({ data, handleEditar, handleEliminar, isIncome }) => {
     const { categoriesMap } = useCategories();
 
     return (
@@ -10,25 +10,25 @@ const Table = ({ expenses, handleEditar, handleEliminar }) => {
                     <tr>
                         <th>Id</th>
                         <th>Nombre</th>
-                        <th>Precio</th>
+                        <th>{isIncome ? 'Monto' : 'Precio'}</th>
                         <th>Categoria</th>
                         <th>Fecha</th>
                     </tr>
                 </thead>
 
                 <tbody>
-                    {expenses.map((expense) => (
-                        <tr className="border-y-2 last:border-t-2 last:border-b-0" key={expense.id}>
-                            <td>{expense.id}</td>
-                            <td>{expense.nombre}</td>
-                            <td>$ {expense.precio}</td>
-                            <td>{categoriesMap[expense.categoria]}</td>
-                            <td>{expense.fecha}</td>
+                    {data.map((element) => (
+                        <tr className="border-y-2 last:border-t-2 last:border-b-0" key={element.id}>
+                            <td>{element.id}</td>
+                            <td>{element.nombre}</td>
+                            <td>$ {isIncome ? element.monto : element.precio}</td>
+                            <td>{categoriesMap[element.categoria]}</td>
+                            <td>{element.fecha}</td>
                             <td className="flex justify-end flex-wrap">
-                                <button className="px-4 py-2 bg-slate-900 hover:bg-slate-950" onClick={() => handleEditar(expense.id)}>
+                                <button className="px-4 py-2 bg-slate-900 hover:bg-slate-950" onClick={() => handleEditar(element.id)}>
                                     Editar
                                 </button>
-                                <button className="px-4 py-2 bg-slate-900 hover:bg-slate-950" onClick={() => handleEliminar(expense.id)}>
+                                <button className="px-4 py-2 bg-slate-900 hover:bg-slate-950" onClick={() => handleEliminar(element.id)}>
                                     Eliminar
                                 </button>
                             </td>

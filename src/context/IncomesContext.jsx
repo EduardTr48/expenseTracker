@@ -1,15 +1,27 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
+import { getIncomesAPI } from '../services/incomeService';
 
 const IncomesContext = createContext();
 
 export const IncomesProvider = ({ children }) => {
-    const [incomes, setIncomes] = useState([
-        { id: 1, nombre: 'Pago de Programdor', monto: 1500, categoria: 'Salario', fecha: '2024-08-01' },
-        { id: 2, nombre: 'Pago de sitio web', monto: 200, categoria: 'Freelance', fecha: '2024-08-05' },
-        { id: 3, nombre: 'Regalo de Beili', monto: 300, categoria: 'Regalo', fecha: '2024-08-10' },
-        { id: 4, nombre: 'Transferencia de Beili', monto: 450, categoria: 'Venta', fecha: '2024-08-15' },
-        { id: 5, nombre: 'Transferencia de Beili', monto: 100, categoria: 'Intereses', fecha: '2024-08-20' },
-    ]);
+    const [incomes, setIncomes] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchIncomes = async () => {
+            try {
+                const data = await getIncomesAPI();
+                setIncomes(data);
+            } catch (error) {
+                setError('No se pudo obtener los ingresos');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchIncomes();
+    }, []);
 
     const addIncomes = (newIncome) => {
         setIncomes((prevIncomes) => [...prevIncomes, newIncome]);
@@ -23,7 +35,7 @@ export const IncomesProvider = ({ children }) => {
         setIncomes((prevIncomes) => prevIncomes.filter((income) => income.id !== id));
     };
 
-    return <IncomesContext.Provider value={{ incomes, addIncomes, updateIncomes, deleteIncomes }}>{children}</IncomesContext.Provider>;
+    return <IncomesContext.Provider value={{ incomes, addIncomes, updateIncomes, deleteIncomes, loading, error }}>{children}</IncomesContext.Provider>;
 };
 
 export const useIncomes = () => React.useContext(IncomesContext);

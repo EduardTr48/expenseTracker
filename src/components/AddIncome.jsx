@@ -1,10 +1,10 @@
 import { Form, useActionData, useNavigate } from 'react-router-dom';
 
 import { useEffect } from 'react';
-import { nextId } from '../helpers/autoIncrement';
 import { formatDate } from '../helpers/formatDate';
 import { useIncomes } from '../context/IncomesContext';
 import FormTransaction from './FormTransaction';
+import { addIncomeAPI } from '../services/incomeService';
 export async function action({ request }) {
     const errores = [];
     const formData = await request.formData();
@@ -16,9 +16,16 @@ export async function action({ request }) {
     if (errores.length > 0) {
         return { errores };
     }
-    data.id = nextId();
+
     data.fecha = formatDate(fechaActual);
-    return { data };
+
+    try {
+        const response = await addIncomeAPI(data);
+        return { response };
+    } catch (error) {
+        console.error('Error al agregar el gasto:', error);
+    }
+    return null;
 }
 
 const AddIncome = () => {
@@ -28,8 +35,8 @@ const AddIncome = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (data?.data) {
-            addIncomes(data.data);
+        if (data?.response) {
+            addIncomes(data.response);
             navigate('/incomes', { state: { addElementSuccess: true } });
         }
     }, [data, addIncomes, navigate]);

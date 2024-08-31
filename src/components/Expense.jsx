@@ -56,14 +56,14 @@ const Expense = () => {
 
     const eliminarGasto = useCallback(
         async (id) => {
-            deleteExpense(id);
             try {
                 await deleteExpenseAPI(id);
+                deleteExpense(id);
+                setNotification({ isOpen: true, message: 'El gasto fue eliminado correctamente' });
+                closeModal();
             } catch (error) {
                 console.log('El gasto no pudo ser eliminado');
             }
-            setNotification({ isOpen: true, message: 'El gasto fue eliminado correctamente' });
-            closeModal();
         },
         [closeModal, deleteExpense]
     );
@@ -119,7 +119,7 @@ const Expense = () => {
                     <p className="pt-4 text-center pb-4">Busqueda</p>
                     <input className="block w-11/12 mx-auto" type="text" value={buscarNombre} onChange={handleBuscarNombre} placeholder="Buscar por nombre" />
                 </div>
-                <div className="bg-slate-800 rounded-xl col-span-3 row-span-6 max-h-112 overflow-y-auto">{filteredExpenses.length > 0 ? <Table expenses={filteredExpenses} handleEditar={handleEditar} handleEliminar={handleEliminar} /> : <p className="text-center text-2xl mt-7">No hay gastos encontrados</p>}</div>
+                <div className="bg-slate-800 rounded-xl col-span-3 row-span-6 max-h-112 overflow-y-auto">{filteredExpenses.length > 0 ? <Table isIncome={false} data={filteredExpenses} handleEditar={handleEditar} handleEliminar={handleEliminar} /> : <p className="text-center text-2xl mt-7">No hay gastos encontrados</p>}</div>
             </div>
         </>
     );

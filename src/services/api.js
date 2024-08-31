@@ -1,7 +1,7 @@
 import { mapExpenseFromApi, mapExpenseToApi } from '../mappers/expenseMapper';
 
 export async function getExpensesAPI() {
-    const response = await fetch(import.meta.env.VITE_API_URL);
+    const response = await fetch(import.meta.env.VITE_API_EXPENSE_URL);
     const data = await response.json();
     return data.map(mapExpenseFromApi);
 }
@@ -13,7 +13,7 @@ export async function obtenerCategorias() {
 }
 
 export async function getExpenseAPI(id) {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/${id}`);
+    const response = await fetch(`${import.meta.env.VITE_API_EXPENSE_URL}/${id}`);
     const data = await response.json();
     return mapExpenseFromApi(data);
 }
@@ -21,7 +21,7 @@ export async function getExpenseAPI(id) {
 export async function addExpenseAPI(datos) {
     const data = mapExpenseToApi(datos);
     try {
-        const respuesta = await fetch(import.meta.env.VITE_API_URL, {
+        const respuesta = await fetch(import.meta.env.VITE_API_EXPENSE_URL, {
             method: 'POST',
             body: JSON.stringify(data),
             headers: {
@@ -40,7 +40,7 @@ export async function updateExpenseAPI(id, datos) {
     const data = mapExpenseToApi(datos);
     console.log(data);
     try {
-        const respuesta = await fetch(`${import.meta.env.VITE_API_URL}/${id}`, {
+        const respuesta = await fetch(`${import.meta.env.VITE_API_EXPENSE_URL}/${id}`, {
             method: 'PUT',
             body: JSON.stringify(data),
             headers: {
@@ -55,7 +55,7 @@ export async function updateExpenseAPI(id, datos) {
 
 export async function deleteExpenseAPI(id) {
     try {
-        const respuesta = await fetch(`${import.meta.env.VITE_API_URL}/${id}`, {
+        const respuesta = await fetch(`${import.meta.env.VITE_API_EXPENSE_URL}/${id}`, {
             method: 'DELETE',
         });
 
