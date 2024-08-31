@@ -1,4 +1,4 @@
-const Modal = ({ isOpen, onClose, onConfirm, title, children }) => {
+const Modal = ({ isOpen, onClose, onConfirm, title, message }) => {
     if (!isOpen) return null;
 
     return (
@@ -10,7 +10,9 @@ const Modal = ({ isOpen, onClose, onConfirm, title, children }) => {
                         &times;
                     </button>
                 </div>
-                <div className="mt-4">{children}</div>
+                <div className="mt-4">
+                    <p>{message}</p>
+                </div>
                 <div className="mt-6 flex justify-end space-x-2">
                     <button onClick={onConfirm} className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
                         Eliminar

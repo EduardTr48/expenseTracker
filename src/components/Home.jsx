@@ -1,13 +1,10 @@
 import { useExpenses } from '../context/ExpensesContext';
-import { obtenerGastoTotal } from '../helpers/obtenerGastoTotal';
-import IconMoneyDollarBoxFill from './IconMoneyDollarBoxFill';
-import { obtenerGastosPorCategoria } from '../helpers/obtenerGastosPorCategoria';
-import GraficoPastel from './GraficoPastel';
-import { obtenerGastosPorMes } from '../helpers/obtenerGastosPorMes';
-import GraficoBarra from './GraficoBarra';
+import IconMoneyDollarBoxFill from '../UI/IconMoneyDollarBoxFill';
+import GraficoPastel from '../UI/GraficoPastel';
+import GraficoBarra from '../UI/GraficoBarra';
 import { useIncomes } from '../context/IncomesContext';
-import { obtenerIngresoTotal } from '../helpers/ObtenerIngresoTotal';
 import { useCategories } from '../context/CategoriesContext';
+import { obtenerGastoTotal, obtenerIngresoTotal, obtenerGastosPorCategoria, obtenerGastosPorMes } from '../helpers';
 const Home = () => {
     const { expenses } = useExpenses();
     const { categoriesMap } = useCategories();

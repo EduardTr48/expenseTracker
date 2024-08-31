@@ -3,8 +3,16 @@ import { useCategories } from '../context/CategoriesContext';
 const Table = ({ data, handleEditar, handleEliminar, isIncome }) => {
     const { categoriesMap } = useCategories();
 
+    if (data.length === 0) {
+        return (
+            <div className="bg-slate-800 rounded-xl col-span-3 row-span-6 max-h-112 overflow-y-auto">
+                <p className="text-center text-2xl mt-7">No hay gastos encontrados</p>
+            </div>
+        );
+    }
+
     return (
-        <>
+        <div className="bg-slate-800 rounded-xl col-span-3 row-span-6 max-h-112 overflow-y-auto">
             <table className="table-auto w-11/12 mx-auto mt-2">
                 <thead className="text-left">
                     <tr>
@@ -36,7 +44,7 @@ const Table = ({ data, handleEditar, handleEliminar, isIncome }) => {
                     ))}
                 </tbody>
             </table>
-        </>
+        </div>
     );
 };
 

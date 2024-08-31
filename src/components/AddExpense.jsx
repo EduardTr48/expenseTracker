@@ -1,24 +1,19 @@
-import { Form, useActionData, useNavigate } from 'react-router-dom';
-
+import { Form } from 'react-router-dom';
 import FormTransaction from './FormTransaction';
-import { useEffect } from 'react';
-import { useExpenses } from '../context/ExpensesContext';
-import { formatDate } from '../helpers/formatDate';
 import BotonVolver from '../UI/BotonVolver';
 import { addExpenseAPI } from '../services/expenseService';
+import { validateData } from '../helpers/validateData';
+import { getCurrentFormatDate } from '../helpers/getCurrentFormatDate';
+import useHandleExpenseAction from '../hooks/useHandleExpenseAction';
 
 export async function action({ request }) {
-    const errores = [];
     const formData = await request.formData();
-    const fechaActual = new Date();
     const data = Object.fromEntries(formData);
-    if (Object.values(data).includes('')) {
-        errores.push('Todos los campos son obligatorios');
-    }
+    const errores = validateData(data);
     if (errores.length > 0) {
         return { errores };
     }
-    data.fecha = formatDate(fechaActual);
+    data.fecha = getCurrentFormatDate();
 
     try {
         const response = await addExpenseAPI(data);
@@ -31,17 +26,7 @@ export async function action({ request }) {
 }
 
 const AddExpense = () => {
-    const { addExpense: agregarGasto } = useExpenses();
-    const data = useActionData();
-    const errores = data?.errores;
-    const navigate = useNavigate();
-    useEffect(() => {
-        if (data?.response) {
-            console.log(data.response);
-            agregarGasto(data.response);
-            navigate('/expense', { state: { addElementSuccess: true } });
-        }
-    }, [data, agregarGasto, navigate]);
+    const errores = useHandleExpenseAction();
 
     return (
         <>

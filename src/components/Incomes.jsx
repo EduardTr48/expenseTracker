@@ -1,11 +1,11 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import Modal from './Modal';
-import Notification from './Notification';
+import Modal from '../UI/Modal';
+import Notification from '../UI/Notification';
 import { useIncomes } from '../context/IncomesContext';
 import { useCategories } from '../context/CategoriesContext';
 import { deleteIncomeAPI } from '../services/incomeService';
-import Table from './Table';
+import Table from '../UI/Table';
 const Incomes = () => {
     const location = useLocation();
     const navigate = useNavigate();
