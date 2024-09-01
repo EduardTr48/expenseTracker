@@ -1,6 +1,7 @@
 import { useState } from 'react';
-
-const useNotification = (location) => {
+import { useLocation } from 'react-router-dom';
+const useNotification = () => {
+    const location = useLocation();
     const { addElementSuccess, editElementSuccess } = location.state || {};
     const [notification, setNotification] = useState({
         isOpen: !!addElementSuccess || !!editElementSuccess,

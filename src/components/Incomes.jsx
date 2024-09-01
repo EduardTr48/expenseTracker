@@ -1,35 +1,24 @@
-import { useLocation, useNavigate } from 'react-router-dom';
-import Modal from '../UI/Modal';
-import Notification from '../UI/Notification';
 import { useIncomes } from '../context/IncomesContext';
 import { useCategories } from '../context/CategoriesContext';
-import Table from '../UI/Table';
-import useNotification from '../hooks/useNotification';
-import useModal from '../hooks/useModal';
-import useFilterdData from '../hooks/useFilterdData';
-import { AddLink, FilterCategory, FilterSearch } from '../UI';
-import useIncomeHandlers from '../hooks/useIncomeHandlers';
-import { useEffect } from 'react';
-
+import { AddLink, FilterCategory, FilterSearch, Table, Notification, Modal } from '../UI';
+import { useModal, useNotification, useFilterdData, useIncomeHandlers, useCleanNotification } from '../hooks';
 const Incomes = () => {
-    const location = useLocation();
-    const navigate = useNavigate();
-    const editElementSuccess = location.state?.editElementSuccess;
-    const { notification, setNotification } = useNotification(location);
+    const { notification, setNotification } = useNotification();
     const { isModalOpen, elementDelete, openModal, closeModal, setElementDelete } = useModal();
-    const { incomes, deleteIncomes } = useIncomes();
+    const { incomes, deleteIncomes, loading, error } = useIncomes();
     const { categoriesIncome } = useCategories();
     const { categoria, buscarNombre, filterdData, setBuscarNombre, setCategoria } = useFilterdData(incomes);
     const { handleEditar, handleEliminar, eliminarIngreso } = useIncomeHandlers({ setElementDelete, openModal, setNotification, closeModal, deleteIncomes });
 
-    useEffect(() => {
-        if (editElementSuccess) {
-            console.log(location);
-            const stateCopy = { ...location.state };
-            delete stateCopy.editElementSuccess;
-            navigate(location.pathname, { replace: true, state: stateCopy });
-        }
-    }, [editElementSuccess, location, navigate]);
+    useCleanNotification();
+
+    if (loading) {
+        return <p>Cargando....</p>;
+    }
+
+    if (error) {
+        return <p>No se pudo obtener los gastos</p>;
+    }
 
     return (
         <>

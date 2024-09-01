@@ -1,19 +1,18 @@
-import { useLocation } from 'react-router-dom';
 import { useExpenses } from '../context/ExpensesContext';
 import { useCategories } from '../context/CategoriesContext';
 import { Modal, Notification, AddLink, FilterCategory, FilterSearch, Table } from '../UI';
-import useFilterdData from '../hooks/useFilterdData';
-import useNotification from '../hooks/useNotification';
-import useModal from '../hooks/useModal';
-import useExpenseHandlers from '../hooks/useExpenseHandlers';
+import { useModal, useNotification, useFilterdData, useExpenseHandlers, useCleanNotification } from '../hooks';
+
 const Expense = () => {
-    const location = useLocation();
-    const { notification, setNotification } = useNotification(location);
+    const { notification, setNotification } = useNotification();
     const { openModal, closeModal, elementDelete, isModalOpen, setElementDelete } = useModal();
     const { expenses, deleteExpense, loading, error } = useExpenses();
     const { categoriesExpense } = useCategories();
     const { categoria, buscarNombre, filterdData, setCategoria, setBuscarNombre } = useFilterdData(expenses);
     const { handleEditar, handleEliminar, eliminarGasto } = useExpenseHandlers(setElementDelete, openModal, deleteExpense, setNotification, closeModal);
+
+    useCleanNotification();
+
     if (loading) {
         return <p>Cargando....</p>;
     }

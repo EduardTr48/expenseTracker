@@ -42,7 +42,7 @@ const EditExpense = () => {
                 console.log('Error al actualizar el gasto');
             }
             updateExpense(data.data);
-            navigate('/expense', { state: { editElementSuccess: true } });
+            navigate('/expense', { state: { editElementSuccess: true }, replace: true });
         }
     }, [data, updateExpense, navigate, id]);
 
