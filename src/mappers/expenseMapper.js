@@ -3,7 +3,7 @@ export function mapExpenseFromApi(expense) {
         id: expense.id,
         nombre: expense.name,
         precio: expense.amount,
-        categoria: expense.categoryId,
+        categoria: Number(expense.categoryId),
         fecha: expense.date,
     };
 }

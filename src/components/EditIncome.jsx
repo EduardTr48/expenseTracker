@@ -1,11 +1,11 @@
 import FormTransaction from './FormTransaction';
-import { Form, useActionData, useParams, useNavigate } from 'react-router-dom';
+import { Form, useActionData, useNavigate } from 'react-router-dom';
 import { useIncomes } from '../context/IncomesContext';
 import { formatDate } from '../helpers/formatDate';
 import { useEffect } from 'react';
 import BotonVolver from '../UI/BotonVolver';
 import { updateIncomeAPI } from '../services/incomeService';
-
+import useFindItemById from '../hooks/useFindItemById';
 export async function action({ request }) {
     const errores = [];
     const formData = await request.formData();
@@ -26,14 +26,10 @@ export async function action({ request }) {
 
 const EditIncome = () => {
     const { incomes, updateIncomes } = useIncomes();
+    const { item, id } = useFindItemById(incomes);
     const data = useActionData();
-    console.log(data?.data);
     const errores = data?.errores;
-    const params = useParams();
     const navigate = useNavigate();
-
-    const id = params.id;
-    const income = incomes.find((income) => income.id == id);
 
     useEffect(() => {
         if (data?.data) {
@@ -58,7 +54,7 @@ const EditIncome = () => {
             <Form method="post" className="bg-slate-800  py-5 rounded-xl">
                 <BotonVolver />
 
-                <FormTransaction entry={income} titulo={'Editar ingreso'} isIncome={true} />
+                <FormTransaction entry={item} titulo={'Editar ingreso'} isIncome={true} />
                 <div className="w-6/12 mx-auto">
                     <input className="px-4 py-2 bg-slate-900 cursor-pointer" type="submit" value="Editar ingreso" />
                 </div>

@@ -2,9 +2,9 @@ import { Form } from 'react-router-dom';
 import FormTransaction from './FormTransaction';
 import BotonVolver from '../UI/BotonVolver';
 import { addExpenseAPI } from '../services/expenseService';
-import { validateData } from '../helpers/validateData';
-import { getCurrentFormatDate } from '../helpers/getCurrentFormatDate';
-import useHandleExpenseAction from '../hooks/useHandleExpenseAction';
+import { getCurrentFormatDate, validateData } from '../helpers';
+import { useHandleContextAction } from '../hooks';
+import { useExpenses } from '../context/ExpensesContext';
 
 export async function action({ request }) {
     const formData = await request.formData();
@@ -26,7 +26,8 @@ export async function action({ request }) {
 }
 
 const AddExpense = () => {
-    const errores = useHandleExpenseAction();
+    const { addExpense } = useExpenses();
+    const errores = useHandleContextAction({ actionContext: addExpense, path: '/expense', state: { addElementSuccess: true } });
 
     return (
         <>

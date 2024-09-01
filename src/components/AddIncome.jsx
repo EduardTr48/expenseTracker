@@ -1,23 +1,19 @@
-import { Form, useActionData, useNavigate } from 'react-router-dom';
-
-import { useEffect } from 'react';
-import { formatDate } from '../helpers/formatDate';
+import { Form } from 'react-router-dom';
+import { useHandleContextAction } from '../hooks';
 import { useIncomes } from '../context/IncomesContext';
 import FormTransaction from './FormTransaction';
 import { addIncomeAPI } from '../services/incomeService';
+import { validateData, getCurrentFormatDate } from '../helpers';
 export async function action({ request }) {
-    const errores = [];
     const formData = await request.formData();
-    const fechaActual = new Date();
     const data = Object.fromEntries(formData);
-    if (Object.values(data).includes('')) {
-        errores.push('Todos los campos son obligatorios');
-    }
+    const errores = validateData(data);
+
     if (errores.length > 0) {
         return { errores };
     }
 
-    data.fecha = formatDate(fechaActual);
+    data.fecha = getCurrentFormatDate();
 
     try {
         const response = await addIncomeAPI(data);
@@ -30,16 +26,7 @@ export async function action({ request }) {
 
 const AddIncome = () => {
     const { addIncomes } = useIncomes();
-    const data = useActionData();
-    const errores = data?.errores;
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        if (data?.response) {
-            addIncomes(data.response);
-            navigate('/incomes', { state: { addElementSuccess: true } });
-        }
-    }, [data, addIncomes, navigate]);
+    const errores = useHandleContextAction({ actionContext: addIncomes, path: '/incomes', state: { addElementSuccess: true } });
 
     return (
         <>

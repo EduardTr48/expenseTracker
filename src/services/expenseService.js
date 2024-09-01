@@ -40,14 +40,15 @@ export async function updateExpenseAPI(id, datos) {
     const data = mapExpenseToApi(datos);
     console.log(data);
     try {
-        const respuesta = await fetch(`${import.meta.env.VITE_API_EXPENSE_URL}/${id}`, {
+        const response = await fetch(`${import.meta.env.VITE_API_EXPENSE_URL}/${id}`, {
             method: 'PUT',
             body: JSON.stringify(data),
             headers: {
                 'Content-Type': 'application/json',
             },
         });
-        await respuesta.json();
+        const result = mapExpenseFromApi(await response.json());
+        return result;
     } catch (error) {
         console.log(error);
     }

@@ -1,50 +1,37 @@
-import { formatDate } from '../helpers/formatDate';
 import { useExpenses } from '../context/ExpensesContext';
-import { useActionData, useNavigate, Form, useParams } from 'react-router-dom';
-import { useEffect } from 'react';
 import BotonVolver from '../UI/BotonVolver';
+import { validateData, getCurrentFormatDate } from '../helpers';
 import FormTransaction from './FormTransaction';
 import { updateExpenseAPI } from '../services/expenseService';
-export async function action({ request }) {
-    const errores = [];
+import { useHandleContextAction, useFindItemById } from '../hooks';
+import { Form } from 'react-router-dom';
+
+export async function action({ request, params }) {
+    const id = Number(params.id);
     const formData = await request.formData();
     const data = Object.fromEntries(formData);
-    const fechaActual = new Date();
-
-    if (Object.values(data).includes('')) {
-        errores.push('Todos los campos son obligatorios');
-    }
+    const errores = validateData(data);
     if (errores.length > 0) {
         return { errores };
     }
+    data.fecha = getCurrentFormatDate();
+    data.id = id;
 
-    data.fecha = formatDate(fechaActual);
-
-    return { data };
+    try {
+        const response = await updateExpenseAPI(id, data);
+        console.log(response);
+        return { response };
+    } catch (error) {
+        console.error('Error al editar el gasto:', error);
+        // Podrías mostrar un mensaje de error al usuario aquí
+    }
+    return null;
 }
 
 const EditExpense = () => {
     const { expenses, updateExpense } = useExpenses();
-    const params = useParams();
-    const id = +params.id;
-    const data = useActionData();
-    const errores = data?.errores;
-    const navigate = useNavigate();
-
-    const expense = expenses.find((expense) => expense.id === id);
-    console.log(expense);
-    useEffect(() => {
-        if (data?.data) {
-            data.data.id = id;
-            try {
-                updateExpenseAPI(id, data.data);
-            } catch (error) {
-                console.log('Error al actualizar el gasto');
-            }
-            updateExpense(data.data);
-            navigate('/expense', { state: { editElementSuccess: true }, replace: true });
-        }
-    }, [data, updateExpense, navigate, id]);
+    const { item } = useFindItemById(expenses);
+    const errores = useHandleContextAction({ actionContext: updateExpense, path: '/expense', state: { editElementSuccess: true } });
 
     return (
         <>
@@ -56,7 +43,7 @@ const EditExpense = () => {
                 ))}
             <Form method="post" className="bg-slate-800  py-5 rounded-xl">
                 <BotonVolver />
-                <FormTransaction entry={expense} titulo={'Editar gasto'} />
+                <FormTransaction entry={item} titulo={'Editar gasto'} />
                 <div className="w-6/12 mx-auto">
                     <input className="px-4 py-2 bg-slate-900 cursor-pointer" type="submit" value="Editar gasto" />
                 </div>
