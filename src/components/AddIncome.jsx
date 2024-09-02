@@ -4,6 +4,8 @@ import { useIncomes } from '../context/IncomesContext';
 import FormTransaction from './FormTransaction';
 import { addIncomeAPI } from '../services/incomeService';
 import { validateData, getCurrentFormatDate } from '../helpers';
+import AlertError from './AlertError';
+import BotonVolver from '../UI/BotonVolver';
 export async function action({ request }) {
     const formData = await request.formData();
     const data = Object.fromEntries(formData);
@@ -26,17 +28,14 @@ export async function action({ request }) {
 
 const AddIncome = () => {
     const { addIncomes } = useIncomes();
-    const errores = useHandleContextAction({ actionContext: addIncomes, path: '/incomes', state: { addElementSuccess: true } });
+    const errores = useHandleContextAction({ actionContext: addIncomes, path: '/incomes', state: { actionElementSucess: true, message: 'El ingreso fue agregado correctamente' } });
 
     return (
         <>
-            {errores &&
-                errores.map((error, index) => (
-                    <h3 className="text-red-500 my-5" key={index}>
-                        {error}
-                    </h3>
-                ))}
+            {errores && errores.map((error, index) => <AlertError error={error} index={index} key={index} />)}
             <Form method="post" className="bg-slate-800  py-5 rounded-xl">
+                <BotonVolver />
+
                 <FormTransaction titulo={'Agregar ingreso'} isIncome={true} />
                 <div className="w-6/12 mx-auto">
                     <input className="px-4 py-2 bg-slate-900 cursor-pointer" type="submit" value="Agregar ingreso" />

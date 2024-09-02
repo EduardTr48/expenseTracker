@@ -17,7 +17,7 @@ const useIncomeHandlers = ({ setElementDelete, openModal, setNotification, close
         try {
             await deleteIncomeAPI(id);
             deleteIncomes(id);
-            setNotification({ isOpen: true, message: 'El gasto fue eliminado correctamente' });
+            setNotification({ isOpen: true, message: 'El ingreso fue eliminado correctamente' });
             closeModal();
         } catch (error) {
             console.log('El ingreso no pudo ser eliminado');

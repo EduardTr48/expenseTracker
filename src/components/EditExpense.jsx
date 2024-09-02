@@ -5,7 +5,7 @@ import FormTransaction from './FormTransaction';
 import { updateExpenseAPI } from '../services/expenseService';
 import { useHandleContextAction, useFindItemById } from '../hooks';
 import { Form } from 'react-router-dom';
-
+import AlertError from './AlertError';
 export async function action({ request, params }) {
     const id = Number(params.id);
     const formData = await request.formData();
@@ -31,16 +31,12 @@ export async function action({ request, params }) {
 const EditExpense = () => {
     const { expenses, updateExpense } = useExpenses();
     const { item } = useFindItemById(expenses);
-    const errores = useHandleContextAction({ actionContext: updateExpense, path: '/expense', state: { editElementSuccess: true } });
+    const errores = useHandleContextAction({ actionContext: updateExpense, path: '/expense', state: { actionElementSucess: true, message: 'El gasto fue editado correctamente' } });
 
     return (
         <>
-            {errores &&
-                errores.map((error, index) => (
-                    <h3 className="text-red-500 my-5" key={index}>
-                        {error}
-                    </h3>
-                ))}
+            {errores && errores.map((error, index) => <AlertError error={error} index={index} key={index} />)}
+
             <Form method="post" className="bg-slate-800  py-5 rounded-xl">
                 <BotonVolver />
                 <FormTransaction entry={item} titulo={'Editar gasto'} />

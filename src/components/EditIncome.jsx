@@ -3,9 +3,10 @@ import { Form } from 'react-router-dom';
 import { useIncomes } from '../context/IncomesContext';
 import BotonVolver from '../UI/BotonVolver';
 import { updateIncomeAPI } from '../services/incomeService';
-import useFindItemById from '../hooks/useFindItemById';
-import { useHandleContextAction } from '../hooks';
+import { useFindItemById, useHandleContextAction } from '../hooks';
 import { getCurrentFormatDate, validateData } from '../helpers';
+import AlertError from './AlertError';
+
 export async function action({ request, params }) {
     const id = Number(params.id);
     const formData = await request.formData();
@@ -32,16 +33,12 @@ export async function action({ request, params }) {
 const EditIncome = () => {
     const { incomes, updateIncomes } = useIncomes();
     const { item } = useFindItemById(incomes);
-    const errores = useHandleContextAction({ actionContext: updateIncomes, path: '/incomes', state: { editElementSuccess: true } });
+    const errores = useHandleContextAction({ actionContext: updateIncomes, path: '/incomes', state: { actionElementSucess: true, message: 'El ingreso fue editado correctamente' } });
 
     return (
         <>
-            {errores &&
-                errores.map((error, index) => (
-                    <h3 className="text-red-500 my-5" key={index}>
-                        {error}
-                    </h3>
-                ))}
+            {errores && errores.map((error, index) => <AlertError error={error} index={index} key={index} />)}
+
             <Form method="post" className="bg-slate-800  py-5 rounded-xl">
                 <BotonVolver />
 

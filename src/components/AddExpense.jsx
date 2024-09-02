@@ -5,7 +5,7 @@ import { addExpenseAPI } from '../services/expenseService';
 import { getCurrentFormatDate, validateData } from '../helpers';
 import { useHandleContextAction } from '../hooks';
 import { useExpenses } from '../context/ExpensesContext';
-
+import AlertError from './AlertError';
 export async function action({ request }) {
     const formData = await request.formData();
     const data = Object.fromEntries(formData);
@@ -27,16 +27,12 @@ export async function action({ request }) {
 
 const AddExpense = () => {
     const { addExpense } = useExpenses();
-    const errores = useHandleContextAction({ actionContext: addExpense, path: '/expense', state: { addElementSuccess: true } });
+    const errores = useHandleContextAction({ actionContext: addExpense, path: '/expense', state: { actionElementSucess: true, message: 'El gasto fue agregado correctamente' } });
 
     return (
         <>
-            {errores &&
-                errores.map((error, index) => (
-                    <h3 className="text-red-500 my-5" key={index}>
-                        {error}
-                    </h3>
-                ))}
+            {errores && errores.map((error, index) => <AlertError error={error} index={index} key={index} />)}
+
             <Form method="post" className="bg-slate-800  py-5 rounded-xl">
                 <BotonVolver />
                 <FormTransaction titulo={'Agregar gasto'} />

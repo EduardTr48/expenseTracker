@@ -3,15 +3,14 @@ import { useLocation, useNavigate } from 'react-router-dom';
 const useCleanNotification = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const editElementSuccess = location.state?.editElementSuccess;
-    const addElementSuccess = location.state?.addElementSuccess;
+    const actionElementSucess = location.state?.actionElementSucess;
     useEffect(() => {
-        if (editElementSuccess || addElementSuccess) {
+        if (actionElementSucess) {
             const stateCopy = { ...location.state };
-            editElementSuccess ? delete stateCopy.editElementSuccess : delete stateCopy.addElementSuccess;
+            delete stateCopy.actionElementSucess;
             navigate(location.pathname, { replace: true, state: stateCopy });
         }
-    }, [editElementSuccess, location, navigate, addElementSuccess]);
+    }, [location, navigate, actionElementSucess]);
 };
 
 export default useCleanNotification;
