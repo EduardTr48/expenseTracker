@@ -34,14 +34,15 @@ export async function updateIncomeAPI(id, datos) {
     const data = mapIncomeToAPI(datos);
     console.log(data);
     try {
-        const respuesta = await fetch(`${import.meta.env.VITE_API_INCOME_URL}/${id}`, {
+        const response = await fetch(`${import.meta.env.VITE_API_INCOME_URL}/${id}`, {
             method: 'PUT',
             body: JSON.stringify(data),
             headers: {
                 'Content-Type': 'application/json',
             },
         });
-        await respuesta.json();
+        const result = mapIncomeFromAPI(await response.json());
+        return result;
     } catch (error) {
         console.log(error);
     }

@@ -1,48 +1,39 @@
 import FormTransaction from './FormTransaction';
-import { Form, useActionData, useNavigate } from 'react-router-dom';
+import { Form } from 'react-router-dom';
 import { useIncomes } from '../context/IncomesContext';
-import { formatDate } from '../helpers/formatDate';
-import { useEffect } from 'react';
 import BotonVolver from '../UI/BotonVolver';
 import { updateIncomeAPI } from '../services/incomeService';
 import useFindItemById from '../hooks/useFindItemById';
-export async function action({ request }) {
-    const errores = [];
+import { useHandleContextAction } from '../hooks';
+import { getCurrentFormatDate, validateData } from '../helpers';
+export async function action({ request, params }) {
+    const id = Number(params.id);
     const formData = await request.formData();
     const data = Object.fromEntries(formData);
-    const fechaActual = new Date();
-
-    if (Object.values(data).includes('')) {
-        errores.push('Todos los campos son obligatorios');
-    }
+    const errores = validateData(data);
 
     if (errores.length > 0) {
         return { errores };
     }
 
-    data.fecha = formatDate(fechaActual);
-    return { data };
+    data.fecha = getCurrentFormatDate();
+    data.id = id;
+    try {
+        const response = await updateIncomeAPI(id, data);
+        console.log(response);
+        return { response };
+    } catch (error) {
+        console.log('Error al actualizar el ingreso');
+    }
+
+    return null;
 }
 
 const EditIncome = () => {
     const { incomes, updateIncomes } = useIncomes();
-    const { item, id } = useFindItemById(incomes);
-    const data = useActionData();
-    const errores = data?.errores;
-    const navigate = useNavigate();
+    const { item } = useFindItemById(incomes);
+    const errores = useHandleContextAction({ actionContext: updateIncomes, path: '/incomes', state: { editElementSuccess: true } });
 
-    useEffect(() => {
-        if (data?.data) {
-            data.data.id = id;
-            try {
-                updateIncomeAPI(id, data.data);
-            } catch (error) {
-                console.log('Error al actualizar el ingreso');
-            }
-            updateIncomes(data.data);
-            navigate('/incomes', { state: { editElementSuccess: true }, replace: true });
-        }
-    }, [data, updateIncomes, navigate, id]);
     return (
         <>
             {errores &&
