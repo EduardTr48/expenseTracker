@@ -1,4 +1,5 @@
 // icon:money-dollar-box-fill | Remix Icon https://remixicon.com/ | Remix Design
+import { memo } from 'react';
 
 function IconMoneyDollarBoxFill(props) {
     return (
@@ -16,4 +17,4 @@ function IconMoneyDollarBoxFill(props) {
     );
 }
 
-export default IconMoneyDollarBoxFill;
+export default memo(IconMoneyDollarBoxFill);

@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 const FilterCategory = ({ categoria, onCategoriaChange, categories }) => {
     return (
         <div className="bg-slate-800 hover:bg-slate-700 w-full rounded-xl">
@@ -14,4 +16,4 @@ const FilterCategory = ({ categoria, onCategoriaChange, categories }) => {
     );
 };
 
-export default FilterCategory;
+export default memo(FilterCategory);

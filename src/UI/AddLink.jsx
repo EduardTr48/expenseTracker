@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Link } from 'react-router-dom';
 const AddLink = ({ link, title }) => {
     return (
@@ -9,4 +10,4 @@ const AddLink = ({ link, title }) => {
     );
 };
 
-export default AddLink;
+export default memo(AddLink);

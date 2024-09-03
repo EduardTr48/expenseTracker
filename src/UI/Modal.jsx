@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 const Modal = ({ isOpen, onClose, onConfirm, title, message }) => {
     if (!isOpen) return null;
 
@@ -26,4 +28,4 @@ const Modal = ({ isOpen, onClose, onConfirm, title, message }) => {
     );
 };
 
-export default Modal;
+export default memo(Modal);

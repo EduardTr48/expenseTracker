@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { deleteExpenseAPI } from '../services/expenseService';
 
-const useExpenseHandlers = (setElementDelete, openModal, deleteExpense, setNotification, closeModal) => {
+const useExpenseHandlers = ({ setElementDelete, openModal, deleteExpense, setNotification, closeModal }) => {
     const navigate = useNavigate();
 
     const handleEditar = useCallback(

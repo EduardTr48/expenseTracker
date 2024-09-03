@@ -9,7 +9,7 @@ const Expense = () => {
     const { expenses, deleteExpense, loading, error } = useExpenses();
     const { categoriesExpense } = useCategories();
     const { categoria, buscarNombre, filterdData, setCategoria, setBuscarNombre } = useFilterdData(expenses);
-    const { handleEditar, handleEliminar, eliminarGasto } = useExpenseHandlers(setElementDelete, openModal, deleteExpense, setNotification, closeModal);
+    const { handleEditar, handleEliminar, eliminarGasto } = useExpenseHandlers({ setElementDelete, openModal, deleteExpense, setNotification, closeModal });
 
     useCleanNotification();
 

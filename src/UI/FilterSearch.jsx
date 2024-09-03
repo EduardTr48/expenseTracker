@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 const FilterSearch = ({ buscarNombre, onBuscarNombreChange }) => {
     return (
         <div className="bg-slate-800 hover:bg-slate-700 cursor-pointer rounded-xl">
@@ -7,4 +9,4 @@ const FilterSearch = ({ buscarNombre, onBuscarNombreChange }) => {
     );
 };
 
-export default FilterSearch;
+export default memo(FilterSearch);

@@ -1,4 +1,5 @@
 import { useCategories } from '../context/CategoriesContext';
+import { memo } from 'react';
 
 const Table = ({ data, handleEditar, handleEliminar, isIncome }) => {
     const { categoriesMap } = useCategories();
@@ -48,4 +49,4 @@ const Table = ({ data, handleEditar, handleEliminar, isIncome }) => {
     );
 };
 
-export default Table;
+export default memo(Table);

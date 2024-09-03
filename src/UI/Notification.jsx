@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { memo } from 'react';
 
 const Notification = ({ message, isOpen, duration, onClose }) => {
     useEffect(() => {
@@ -16,4 +17,4 @@ const Notification = ({ message, isOpen, duration, onClose }) => {
     return <div className="fixed top-5 right-5 bg-green-500 text-white p-4 rounded shadow-lg">{message}</div>;
 };
 
-export default Notification;
+export default memo(Notification);

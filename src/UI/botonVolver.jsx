@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-
+import { memo } from 'react';
 const BotonVolver = () => {
     const navigate = useNavigate();
 
@@ -12,4 +12,4 @@ const BotonVolver = () => {
     );
 };
 
-export default BotonVolver;
+export default memo(BotonVolver);
