@@ -3,7 +3,7 @@ import { useHandleContextAction } from '../hooks';
 import { useIncomes } from '../context/IncomesContext';
 import FormTransaction from './FormTransaction';
 import { addIncomeAPI } from '../services/incomeService';
-import { validateData, getCurrentFormatDate } from '../helpers';
+import { validateData } from '../helpers';
 import AlertError from './AlertError';
 import BotonVolver from '../UI/BotonVolver';
 export async function action({ request }) {
@@ -14,8 +14,6 @@ export async function action({ request }) {
     if (errores.length > 0) {
         return { errores };
     }
-
-    data.fecha = getCurrentFormatDate();
 
     try {
         const response = await addIncomeAPI(data);

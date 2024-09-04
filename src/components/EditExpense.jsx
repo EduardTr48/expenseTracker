@@ -1,6 +1,6 @@
 import { useExpenses } from '../context/ExpensesContext';
 import BotonVolver from '../UI/BotonVolver';
-import { validateData, getCurrentFormatDate } from '../helpers';
+import { validateData } from '../helpers';
 import FormTransaction from './FormTransaction';
 import { updateExpenseAPI } from '../services/expenseService';
 import { useHandleContextAction, useFindItemById } from '../hooks';
@@ -14,7 +14,6 @@ export async function action({ request, params }) {
     if (errores.length > 0) {
         return { errores };
     }
-    data.fecha = getCurrentFormatDate();
     data.id = id;
 
     try {

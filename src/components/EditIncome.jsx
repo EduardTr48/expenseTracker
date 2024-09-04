@@ -4,7 +4,7 @@ import { useIncomes } from '../context/IncomesContext';
 import BotonVolver from '../UI/BotonVolver';
 import { updateIncomeAPI } from '../services/incomeService';
 import { useFindItemById, useHandleContextAction } from '../hooks';
-import { getCurrentFormatDate, validateData } from '../helpers';
+import { validateData } from '../helpers';
 import AlertError from './AlertError';
 
 export async function action({ request, params }) {
@@ -17,7 +17,6 @@ export async function action({ request, params }) {
         return { errores };
     }
 
-    data.fecha = getCurrentFormatDate();
     data.id = id;
     try {
         const response = await updateIncomeAPI(id, data);

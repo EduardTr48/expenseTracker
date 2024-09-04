@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useCategories } from '../context/CategoriesContext';
 const FormTransaction = ({ entry: transaction, titulo, isIncome = false }) => {
-    const [entry, setEntry] = useState(transaction || { nombre: '', [isIncome ? 'monto' : 'precio']: '', categoria: '' });
+    const [entry, setEntry] = useState(transaction || { nombre: '', [isIncome ? 'monto' : 'precio']: '', categoria: '', fecha: '' });
     const [categories, setCategories] = useState([]);
     const { categoriesExpense, categoriesIncome } = useCategories();
     const handleChange = (e) => {
@@ -36,6 +36,11 @@ const FormTransaction = ({ entry: transaction, titulo, isIncome = false }) => {
                             </option>
                         ))}
                     </select>
+                </div>
+
+                <div className="mb-4">
+                    <label>Fecha</label>
+                    <input className="w-full text-gray-900 px-1" type="date" name="fecha" value={entry?.fecha} onChange={handleChange} />
                 </div>
             </div>
         </>

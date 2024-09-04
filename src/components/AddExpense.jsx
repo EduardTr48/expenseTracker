@@ -2,7 +2,7 @@ import { Form } from 'react-router-dom';
 import FormTransaction from './FormTransaction';
 import BotonVolver from '../UI/BotonVolver';
 import { addExpenseAPI } from '../services/expenseService';
-import { getCurrentFormatDate, validateData } from '../helpers';
+import { validateData } from '../helpers';
 import { useHandleContextAction } from '../hooks';
 import { useExpenses } from '../context/ExpensesContext';
 import AlertError from './AlertError';
@@ -10,17 +10,16 @@ export async function action({ request }) {
     const formData = await request.formData();
     const data = Object.fromEntries(formData);
     const errores = validateData(data);
+
     if (errores.length > 0) {
         return { errores };
     }
-    data.fecha = getCurrentFormatDate();
 
     try {
         const response = await addExpenseAPI(data);
         return { response };
     } catch (error) {
         console.error('Error al agregar el gasto:', error);
-        // Podrías mostrar un mensaje de error al usuario aquí
     }
     return null;
 }
