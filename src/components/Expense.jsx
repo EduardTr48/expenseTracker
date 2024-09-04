@@ -8,7 +8,7 @@ const Expense = () => {
     const { openModal, closeModal, elementDelete, isModalOpen, setElementDelete } = useModal();
     const { expenses, deleteExpense, loading, error } = useExpenses();
     const { categoriesExpense } = useCategories();
-    const { categoria, buscarNombre, filterdData, setCategoria, setBuscarNombre } = useFilterdData(expenses);
+    const { filterdData, filters, setFilter } = useFilterdData(expenses, { nombre: '', categoria: '' });
     const { handleEditar, handleEliminar, eliminarGasto } = useExpenseHandlers({ setElementDelete, openModal, deleteExpense, setNotification, closeModal });
 
     useCleanNotification();
@@ -34,8 +34,8 @@ const Expense = () => {
 
             <div className="grid grid-cols-3 gap-6">
                 <AddLink link={'/addExpense'} title={'Agregar gasto'} />
-                <FilterCategory categoria={categoria} categories={categoriesExpense} onCategoriaChange={(e) => setCategoria(Number(e.target.value))} />
-                <FilterSearch buscarNombre={buscarNombre} onBuscarNombreChange={(e) => setBuscarNombre(e.target.value)} />
+                <FilterCategory categories={categoriesExpense} filter={filters.categoria} onCategoryChange={(e) => setFilter('categoria', Number(e.target.value))} />
+                {<FilterSearch filter={filters.nombre} onNameChange={(e) => setFilter('nombre', e.target.value)} />}
                 {<Table isIncome={false} data={filterdData} handleEditar={handleEditar} handleEliminar={handleEliminar} />}
             </div>
         </>

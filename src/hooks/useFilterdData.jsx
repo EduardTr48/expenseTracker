@@ -1,23 +1,32 @@
 import { useMemo, useState } from 'react';
 
-const useFilterdData = (data) => {
-    const [categoria, setCategoria] = useState('');
-    const [buscarNombre, setBuscarNombre] = useState('');
+const useFilterdData = (data, filters) => {
+    const [stateFilters, setStateFilters] = useState(filters);
 
     const filterdData = useMemo(() => {
-        return data.filter((expense) => {
-            const matchesCategoria = categoria ? expense.categoria === categoria : true;
-            const matchesNombre = buscarNombre ? expense.nombre.toLowerCase().includes(buscarNombre.toLowerCase()) : true;
-            return matchesCategoria && matchesNombre;
+        return data.filter((item) => {
+            return Object.keys(stateFilters).every((key) => {
+                if (!stateFilters[key]) return true;
+                if (Number(item[key])) {
+                    return item[key] === stateFilters[key];
+                }
+                return item[key].toString().toLowerCase().includes(stateFilters[key].toLowerCase());
+            });
         });
-    }, [data, buscarNombre, categoria]);
+    }, [data, stateFilters]);
+
+    const setFilter = (key, value) => {
+        setStateFilters((prevFilters) => ({
+            ...prevFilters,
+            [key]: value,
+        }));
+    };
+    console.log(filterdData);
 
     return {
-        categoria,
-        buscarNombre,
         filterdData,
-        setBuscarNombre,
-        setCategoria,
+        setFilter,
+        filters: stateFilters,
     };
 };
 

@@ -13,8 +13,8 @@ const Table = ({ data, handleEditar, handleEliminar, isIncome }) => {
     }
 
     return (
-        <div className="bg-slate-800 rounded-xl col-span-3 row-span-6 max-h-112 overflow-y-auto">
-            <table className="table-auto w-11/12 mx-auto mt-2">
+        <div className="bg-slate-800 rounded-xl col-span-3  max-h-112  overflow-y-auto">
+            <table className="table-auto w-11/12 mx-auto mt-2 ">
                 <thead className="text-left">
                     <tr>
                         <th>Id</th>
