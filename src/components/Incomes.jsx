@@ -7,7 +7,7 @@ const Incomes = () => {
     const { isModalOpen, elementDelete, openModal, closeModal, setElementDelete } = useModal();
     const { incomes, deleteIncomes, loading, error } = useIncomes();
     const { categoriesIncome } = useCategories();
-    const { categoria, buscarNombre, filterdData, setBuscarNombre, setCategoria } = useFilterdData(incomes);
+    const { filterdData, filters, setFilter } = useFilterdData(incomes, { nombre: '', categoria: '' });
     const { handleEditar, handleEliminar, eliminarIngreso } = useIncomeHandlers({ setElementDelete, openModal, setNotification, closeModal, deleteIncomes });
 
     useCleanNotification();
@@ -32,8 +32,8 @@ const Incomes = () => {
             <Modal isOpen={isModalOpen} onClose={closeModal} onConfirm={() => eliminarIngreso(elementDelete)} title={'Eliminar el ingreso'} message={'¿Estas seguro que deseas eliminar el ingreso?'} />
             <div className="grid grid-cols-3 gap-6">
                 <AddLink link={'/addIncome'} title={'Agregar ingreso'} />
-                <FilterCategory categoria={categoria} categories={categoriesIncome} onCategoriaChange={(e) => setCategoria(Number(e.target.value))} />
-                <FilterSearch buscarNombre={buscarNombre} onBuscarNombreChange={(e) => setBuscarNombre(e.target.value)} />
+                <FilterCategory filter={filters.categoria} categories={categoriesIncome} onCategoryChange={(e) => setFilter('categoria', Number(e.target.value))} />
+                <FilterSearch filter={filters.nombre} onNameChange={(e) => setFilter('nombre', e.target.value)} />
                 <Table isIncome data={filterdData} handleEditar={handleEditar} handleEliminar={handleEliminar} />
             </div>
         </>
