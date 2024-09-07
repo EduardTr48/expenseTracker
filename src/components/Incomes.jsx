@@ -17,7 +17,7 @@ const Incomes = () => {
     }
 
     if (error) {
-        return <p>No se pudo obtener los gastos</p>;
+        return <p>No se pudo obtener los ingresos</p>;
     }
 
     return (

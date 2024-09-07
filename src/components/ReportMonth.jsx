@@ -7,7 +7,7 @@ import { formatDDYY } from '../helpers/formatDate';
 import { obtenerGastoTotal } from '../helpers/obtenerGastoTotal';
 import { useCategories } from '../context/CategoriesContext';
 const ReportMonth = () => {
-    const { expenses } = useExpenses();
+    const { expenses, error } = useExpenses();
     const { categoriesMap } = useCategories();
     const [date, setDate] = useState('08-2024');
     const dataFilterDate = obtenerGastosPorFecha(expenses, date);
@@ -34,6 +34,11 @@ const ReportMonth = () => {
         newDate.setMonth(newDate.getMonth() + months);
         setDate(formatDDYY(newDate));
     };
+
+    if (error) {
+        return <p>No se encontraron gastos</p>;
+    }
+
     return (
         <>
             <p>Gasto Total: ${gastoTotal}</p>
