@@ -4,7 +4,7 @@ import GraficoPastel from '../UI/GraficoPastel';
 import GraficoBarra from '../UI/GraficoBarra';
 import { useIncomes } from '../context/IncomesContext';
 import { useCategories } from '../context/CategoriesContext';
-import { obtenerGastoTotal, obtenerIngresoTotal, obtenerGastosPorCategoria, obtenerGastosPorMes } from '../helpers';
+import { obtenerGastoTotal, obtenerIngresoTotal, obtenerGastosPorCategoria, obtenerGastosAgrupadosPorMes } from '../helpers';
 const Home = () => {
     const { expenses } = useExpenses();
     const { categoriesMap } = useCategories();
@@ -12,7 +12,7 @@ const Home = () => {
     const gastoTotal = obtenerGastoTotal(expenses);
     const ingresoTotal = obtenerIngresoTotal(incomes);
     const data = obtenerGastosPorCategoria(expenses, categoriesMap);
-    const gastosPorMes = obtenerGastosPorMes(expenses);
+    const gastosPorMes = obtenerGastosAgrupadosPorMes(expenses);
 
     return (
         <div className="grid grid-cols-3 grid-rows-4 gap-6 h-full pt-10">
@@ -43,10 +43,12 @@ const Home = () => {
                     <p>${ingresoTotal - gastoTotal}</p>
                 </div>
             </div>
-            <div className="col-span-1 row-span-3 bg-slate-800 rounded-xl flex justify-center items-center ">
+            <div className="col-span-1 row-span-3 flex-col gap-3 bg-slate-800 rounded-xl w-full h-full flex justify-center items-center">
+                <h2 className="text-center pt-1">Gastos del Mes</h2>
                 <GraficoPastel dataKey="gasto" nameKey={'categoria'} data={data} />
             </div>
-            <div className="col-span-2 row-span-3 bg-slate-800 rounded-xl flex justify-center items-center ">
+            <div className="col-span-2 row-span-3 flex-col gap-3 bg-slate-800 rounded-xl w-full h-full flex justify-center items-center">
+                <h2 className="text-center pt-1">Gastos de los ultimos meses</h2>
                 <GraficoBarra data={gastosPorMes} dataXA={'mes'} dataBar={'gasto'} />
             </div>
         </div>

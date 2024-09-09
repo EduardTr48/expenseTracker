@@ -3,9 +3,10 @@ import { useExpenses } from '../context/ExpensesContext';
 import { obtenerGastosPorFecha } from '../helpers/obtenerGastosPorFecha';
 import { obtenerGastosPorCategoria } from '../helpers/obtenerGastosPorCategoria';
 import { useState } from 'react';
-import { formatDDYY } from '../helpers/formatDate';
+import { formatMMYY } from '../helpers/formatDate';
 import { obtenerGastoTotal } from '../helpers/obtenerGastoTotal';
 import { useCategories } from '../context/CategoriesContext';
+import { convertStringToDate } from '../helpers';
 const ReportMonth = () => {
     const { expenses, error } = useExpenses();
     const { categoriesMap } = useCategories();
@@ -24,15 +25,10 @@ const ReportMonth = () => {
         }
     };
 
-    const convertStringToDate = (mmYYYY) => {
-        const [month, year] = mmYYYY.split('-').map(Number);
-        return new Date(year, month - 1);
-    };
-
     const changeMonth = (months) => {
         const newDate = new Date(convertStringToDate(date));
         newDate.setMonth(newDate.getMonth() + months);
-        setDate(formatDDYY(newDate));
+        setDate(formatMMYY(newDate));
     };
 
     if (error) {
@@ -51,7 +47,7 @@ const ReportMonth = () => {
                 <ResponsiveContainer width="100%" height={400}>
                     <BarChart data={data}>
                         <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="categoria" />
+                        <XAxis dataKey="categoria" tickCount={5} />
                         <YAxis />
                         <Tooltip content={<CustomTooltip />} />
                         <Bar dataKey="gasto">
