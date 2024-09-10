@@ -1,5 +1,5 @@
 import { Outlet, Link } from 'react-router-dom';
-
+import imagenUsuario from '/src/assets/images/usuario.png';
 const App = () => {
     return (
         <div className="grid grid-cols-6 min-h-screen">
@@ -7,7 +7,7 @@ const App = () => {
                 <aside className="h-full">
                     <div className="pt-6 w-full">
                         <div className="bg-slate-400 w-28 h-28 rounded-full mx-auto">
-                            <img className="w-full h-full object-cover" src="/src/assets/img/usuario.png" alt="imagen del usuario" />
+                            <img className="w-full h-full object-cover" src={imagenUsuario} alt="imagen del usuario" />
                         </div>
                         <p className="pt-3 text-center text-white">Eduardo Rodriguez</p>
                     </div>
