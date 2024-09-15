@@ -8,36 +8,13 @@ import { obtenerGastoTotal } from "../helpers/obtenerGastoTotal";
 import { useCategories } from "../context/CategoriesContext";
 import { convertStringToDate } from "../helpers";
 import GraficoBarra from "../UI/GraficoBarra";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from "recharts";
-import { useExpenses } from "../context/ExpensesContext";
-import { obtenerGastosPorFecha } from "../helpers/obtenerGastosPorFecha";
-import { obtenerGastosPorCategoria } from "../helpers/obtenerGastosPorCategoria";
-import { useState } from "react";
-import { formatDDYY } from "../helpers/formatDate";
-import { obtenerGastoTotal } from "../helpers/obtenerGastoTotal";
-import { useCategories } from "../context/CategoriesContext";
 const ReportMonth = () => {
     const { expenses, error } = useExpenses();
     const { categoriesMap } = useCategories();
     const [date, setDate] = useState("08-2024");
     const dataFilterDate = obtenerGastosPorFecha(expenses, date);
     const data = obtenerGastosPorCategoria(dataFilterDate, categoriesMap);
-    const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#A4DE02", "#D0ED57", "#FF7F50"];
     const gastoTotal = obtenerGastoTotal(dataFilterDate);
-    const CustomTooltip = ({ active, payload }) => {
-        if (active && payload && payload.length) {
-            return (
-                <div style={{ backgroundColor: "#333", color: "#fff", padding: "10px", borderRadius: "5px" }}>
-                    <p>{`${payload[0].name} : $${payload[0].value}`}</p>
-                </div>
-            );
-        }
-    };
-
-    const convertStringToDate = (mmYYYY) => {
-        const [month, year] = mmYYYY.split("-").map(Number);
-        return new Date(year, month - 1);
-    };
 
     const changeMonth = (months) => {
         const newDate = new Date(convertStringToDate(date));
@@ -63,7 +40,7 @@ const ReportMonth = () => {
             </div>
             {gastoTotal ? (
                 <ResponsiveContainer width="100%" height={400}>
-                    <GraficoBarra data={data} dataXA={"categoria"} dataBar={"gasto"} />
+                    <GraficoBarra data={data} dataXA={"categoria"} width={1000} dataBar={"gasto"} />
                 </ResponsiveContainer>
             ) : (
                 <p>No hay gastos</p>
