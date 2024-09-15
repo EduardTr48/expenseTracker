@@ -1,3 +1,13 @@
+import { ResponsiveContainer } from "recharts";
+import { useExpenses } from "../context/ExpensesContext";
+import { obtenerGastosPorFecha } from "../helpers/obtenerGastosPorFecha";
+import { obtenerGastosPorCategoria } from "../helpers/obtenerGastosPorCategoria";
+import { useState } from "react";
+import { formatMMYY } from "../helpers/formatDate";
+import { obtenerGastoTotal } from "../helpers/obtenerGastoTotal";
+import { useCategories } from "../context/CategoriesContext";
+import { convertStringToDate } from "../helpers";
+import GraficoBarra from "../UI/GraficoBarra";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from "recharts";
 import { useExpenses } from "../context/ExpensesContext";
 import { obtenerGastosPorFecha } from "../helpers/obtenerGastosPorFecha";
@@ -32,7 +42,7 @@ const ReportMonth = () => {
     const changeMonth = (months) => {
         const newDate = new Date(convertStringToDate(date));
         newDate.setMonth(newDate.getMonth() + months);
-        setDate(formatDDYY(newDate));
+        setDate(formatMMYY(newDate));
     };
 
     if (error) {
@@ -53,17 +63,7 @@ const ReportMonth = () => {
             </div>
             {gastoTotal ? (
                 <ResponsiveContainer width="100%" height={400}>
-                    <BarChart data={data}>
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="categoria" />
-                        <YAxis />
-                        <Tooltip content={<CustomTooltip />} />
-                        <Bar dataKey="gasto">
-                            {data.map((entry, index) => (
-                                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                            ))}
-                        </Bar>
-                    </BarChart>
+                    <GraficoBarra data={data} dataXA={"categoria"} dataBar={"gasto"} />
                 </ResponsiveContainer>
             ) : (
                 <p>No hay gastos</p>

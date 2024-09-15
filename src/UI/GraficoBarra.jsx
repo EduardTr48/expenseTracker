@@ -1,8 +1,8 @@
 import { BarChart, XAxis, YAxis, Tooltip, Bar } from 'recharts';
-
+import { memo } from 'react';
 const GraficoBarra = ({ data, dataXA, dataBar }) => {
     return (
-        <BarChart width={600} height={400} data={data} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+        <BarChart width={700} height={350} data={data} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
             <XAxis dataKey={dataXA} />
             <YAxis />
             <Tooltip />
@@ -12,4 +12,4 @@ const GraficoBarra = ({ data, dataXA, dataBar }) => {
     );
 };
 
-export default GraficoBarra;
+export default memo(GraficoBarra);
