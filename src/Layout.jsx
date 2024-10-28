@@ -25,9 +25,7 @@ const App = () => {
                         <Link className="px-3 py-2 ml-4 max-w-48 w-full hover:bg-slate-500 hover:rounded-md" to={'/reportMonth'}>
                             Reporte del Mes
                         </Link>
-                        <Link className="px-3 py-2 ml-4 max-w-48 w-full hover:bg-slate-500 hover:rounded-md" href="#">
-                            Configuracion
-                        </Link>
+                        
                     </nav>
                 </aside>
             </div>

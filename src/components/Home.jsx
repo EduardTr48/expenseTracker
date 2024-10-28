@@ -40,7 +40,7 @@ const Home = () => {
                 </div>
                 <div className="flex flex-col w-full justify-center items-center ">
                     <h2 className="">Balance: </h2>
-                    <p>${ingresoTotal - gastoTotal}</p>
+                    <p>${parseFloat(ingresoTotal - gastoTotal).toFixed(2)}</p>
                 </div>
             </div>
             <div className="col-span-1 row-span-3 flex-col gap-3 bg-slate-800 rounded-xl w-full h-full flex justify-center items-center">
